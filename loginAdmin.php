@@ -19,13 +19,15 @@
         }
 
         .img-fluid {
-            width: 250px;
+            width: 395px;
+            height: 90px;
+
         }
     </style>
 </head>
 <body>
     <div class="image-container">
-        <img src="./Men_2021-removebg.png" alt="Ministère de l'Éducation Nationale" class="img-fluid">
+        <img src="./images/LogoMenAr.png" alt="Ministère de l'Éducation Nationale" class="img-fluid">
     </div>
 
     <div class="card text-right">
