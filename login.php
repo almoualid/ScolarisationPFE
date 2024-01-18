@@ -27,17 +27,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if ($user_info) {
                 // Your existing code for successful login...
 
-                // Redirect to acceuil.php
-                header("Location: acceuil.php");
-                exit();
-            } else {
-                $error_message = "اسم المستخدم أو كلمة المرور غير صحيحة.";
-            }
-        } catch(PDOException $e) {
-            $error_message = "خطأ أثناء تسجيل الدخول. الرجاء المحاولة مرة أخرى.";
-            // Log the error to a secure log file
-            error_log("Database error during login: " . $e->getMessage());
+            // Redirect to acceuil.php
+            header("Location: acceuil.php");
+            exit();
+        } else {
+            echo "Invalid Code Gresa or password.";
         }
+    } catch(PDOException $e) {
+        // Log the error to a secure log file
+        error_log("Database error during login: " . $e->getMessage());
+        // Display a generic error message to the user
+        echo "Error during login. Please try again.";
     }
 }
 ?>
@@ -55,39 +55,46 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link href="assets/css/style.css" rel="stylesheet">
 
     <title>صفحة الإدارة</title>
-</head>
-<body>
-    <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-        <section class="form-02-main">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="_lk_de">
-                            <div class="form-03-main">
-                                <h2 class="card-title text-center"> تسجيل الدخول إلى صفحة بالمؤسسات </h2>
-                                <div class="logo">
-                                    <img src="assets/images/user.png">
-                                </div>
-                                <div class="form-group">
-                                    <input type="text" name="CodeGresa" class="form-control _ge_de_ol" placeholder=" اسم المستخدم:" >
-                                </div>
-                                <div class="form-group">
-                                    <input type="password" name="mdp" class="form-control _ge_de_ol" placeholder="كلمة المرور:" >
-                                </div>
-                                <div class="form-group">
-                                    <button type="submit" class="_btn_04">تسجيل الدخول</button>
-                                </div>
-                                <?php if (!empty($error_message)) : ?>
-                                    <div class="alert alert-danger text-center">
-                                        <?php echo $error_message; ?>
-                                    </div>
-                                <?php endif; ?>
-                            </div>
-                        </div>
-                    </div>
+  </head>
+  <body>
+  <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+    <section class="form-02-main">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="_lk_de">
+              <div class="form-03-main">
+                <h2 class="card-title text-center"> تسجيل الدخول إلى صفحة بالمؤسسات </h2>
+                <div class="logo">
+                  <img src="assets/images/user.png">
                 </div>
+                <div class="form-group">
+                  <input type="text" name="CodeGresa" class="form-control _ge_de_ol" type="text" placeholder=" اسم المستخدم:" required="" aria-required="true">
+                </div>
+
+                <div class="form-group">
+                  <input type="password" name="mdp" class="form-control _ge_de_ol" type="text" placeholder="كلمة المرور:" required="" aria-required="true">
+                </div>
+
+
+
+                <div class="form-group">
+                  <button type="submit" class="_btn_04">تسجيل الدخول</button>
+                </div>
+                <?php if (!empty($error_message)) : ?>
+                <div class="alert alert-danger">
+                <?php echo $error_message; ?>
+                </div>
+               <?php endif; ?>
+
+
+                
+              </div>
             </div>
-        </section>
+          </div>
+        </div>
+      </div>
+    </section>
     </form>
 </body>
 </html>

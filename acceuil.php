@@ -1,6 +1,6 @@
 <?php
 session_start();
-
+ 
 // Check if the user is logged in
 if (!isset($_SESSION["user_id"]) || empty($_SESSION["user_id"])) {
     // Redirect to the login page if the user is not logged in
@@ -8,7 +8,7 @@ if (!isset($_SESSION["user_id"]) || empty($_SESSION["user_id"])) {
     exit();
 }
 ?>
-
+ 
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -20,11 +20,11 @@ if (!isset($_SESSION["user_id"]) || empty($_SESSION["user_id"])) {
 </head>
 <body>
     <img src="./LogoMenAr.png" alt="" srcset="">
-    
-    <h3>مرحبا بكم , <?php echo $_SESSION["user_name"]; ?> <br> 
+   
+    <h3>مرحبا بكم , <?php echo $_SESSION["user_name"]; ?> <br>
     جماعة <?php echo $_SESSION["commune"]; ?>
-    </h3> 
-    
+    </h3>
+   
     <div style="display: flex;">
     <select class="form-select" aria-label="Disabled select example" style="width: 30%;" disabled>
        <option selected> <?php echo $_SESSION["user_name"]; ?></option>
@@ -35,7 +35,7 @@ if (!isset($_SESSION["user_id"]) || empty($_SESSION["user_id"])) {
     </select>
     </div>
     <br>
-
-    <a href="logout.php">Logout</a>
+ 
+    <a href="logout.php" class="btn btn-primary" >تسجيل الخروج</a>
 </body>
 </html>
