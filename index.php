@@ -7,7 +7,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <style>
         body {
-            background: url(/images/bg_eleve.png) center top repeat-x #f7f2df;
+            background: url(./images/bg_eleve.png) center top repeat-x #f7f2df;
         }
 
         .accueil-header, .accueil-body, .accueil-footer {
@@ -64,6 +64,7 @@
             height: auto;
             border-radius: 50%;
             border: 4px solid #9da7dc;
+            margin-top:10px;
         }
 
         .accueil-component-title {
@@ -98,7 +99,7 @@
                         <img src="./images/directeur general.jpg" class="img-fluid">
                     </div>
                     <div class="accueil-component-title">
-                        <p >الفضاء الخاص بمدير المؤسسة</p>
+                        <p >الفضاء الخاص بالمؤسسات</p>
                     </div>
                 </div>
             </div>
@@ -108,7 +109,7 @@
                         <img src="./images/directeur.png" class="img-fluid">
                     </div>
                     <div class="accueil-component-title">
-                        <p >الفضاء الخاص بمدير النيابة</p>
+                        <p >الفضاء الخاص بالمديرية</p>
                     </div>
                 </div>
             </div>
