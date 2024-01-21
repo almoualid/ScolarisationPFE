@@ -7,7 +7,60 @@ if (!isset($_SESSION["user_id"]) || empty($_SESSION["user_id"])) {
     header("Location: login.php");
     exit();
 }
+
+// Include your database connection file or handle it as per your setup
+ include('conn.php');
+
+// Check if form is submitted
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Retrieve form data
+    $numInscription = $_POST["NumInscription"];
+    $nomArabeEleve = $_POST["NomArabeEleve"];
+    $nomFrancaisEleve = $_POST["NomFrancaisEleve"];
+    $prenomArabeEleve = $_POST["PrenomArabeEleve"];
+    $prenomFrancaisEleve = $_POST["PrenomFrancaisEleve"];
+    $dateNaissance = $_POST["DateNaissance"];
+    $lieuNaissance = $_POST["LieuNaissance"];
+    $anneeScolaire = $_POST["AnneeScolaire"];
+    $dateAbandonnement = $_POST["DateAbandonnement"];
+    $remarque = $_POST["Remarque"];
+    // Add more fields as needed
+
+    // Validate and sanitize the data as needed
+
+    try {
+        // Insert data into Eleve table
+        $sql = "INSERT INTO Eleve (NumInscription,NomArabeEleve, PrenomFrancaisEleve, PrenomArabeEleve, NomFrancaisEleve, DateNaissance, LieuNaissance, AnneeScolaire, DateAbandonnement, Remarque, id_Inst)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        // Prepare the statement
+        $stmt = $conn->prepare($sql);
+
+        // Bind parameters
+        $stmt->bindParam(1, $numInscription);
+        $stmt->bindParam(2, $nomArabeEleve);
+        $stmt->bindParam(3, $prenomFrancaisEleve);
+        $stmt->bindParam(4, $prenomArabeEleve);
+        $stmt->bindParam(5, $nomFrancaisEleve);
+        $stmt->bindParam(6, $dateNaissance);
+        $stmt->bindParam(7, $lieuNaissance);
+        $stmt->bindParam(8, $anneeScolaire);
+        $stmt->bindParam(9, $dateAbandonnement);
+        $stmt->bindParam(10, $remarque);
+        $stmt->bindParam(11, $_SESSION["user_id"]); 
+
+        // Execute the statement
+        $stmt->execute();
+
+        echo "New record created successfully";
+        
+    } catch (PDOException $e) {
+        echo "Error: " . $e->getMessage();
+    }
+}
 ?>
+
+
 
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
@@ -31,7 +84,7 @@ if (!isset($_SESSION["user_id"]) || empty($_SESSION["user_id"])) {
         }
 
         img {
-            width: 150px;
+            width: 300px;
             height: auto;
             margin-bottom: 20px;
         }
@@ -62,7 +115,7 @@ if (!isset($_SESSION["user_id"]) || empty($_SESSION["user_id"])) {
 
 <body>
     <div class="container">
-        <img src="./LogoMenAr.png" alt="">
+        <img src="./images/LogoMenAr.png" alt="">
         <h3>مرحبا بكم , <?php echo $_SESSION["user_name"]; ?> <br> جماعة <?php echo $_SESSION["commune"]; ?></h3>
 
         <div style="display: flex;">
@@ -75,8 +128,12 @@ if (!isset($_SESSION["user_id"]) || empty($_SESSION["user_id"])) {
             </select>
         </div>
 
-        <form action="process_form.php" method="post">
+        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
             <h4 class='text text-center'>  إضافة تلميذ(ة) جديد(ة) </h4> <br>
+            <div class="col-md-12">
+                    <label for="NumInscription" class="form-label">رقم التسجيل</label>
+                    <input type="text" class="form-control" id="NumInscription" name="NumInscription" required>
+            </div>
             <div class="mb-3 row">
                 <div class="col-md-6">
                     <label for="NomArabeEleve" class="form-label">الاسم العائلي باللغة العربية</label>
@@ -134,14 +191,12 @@ if (!isset($_SESSION["user_id"]) || empty($_SESSION["user_id"])) {
 
             <div class="mb-3 row">
                 <div class="col-md-6">
-                <a href="#" class="btn btn-primary w-100 ">إرسال</a>
+                <button type="submit" class="btn btn-primary w-100 ">إرسال</button>
                 </div>
                 <div class="col-md-6">
                    <a href="logout.php" class="btn btn-danger w-100 ">تسجيل الخروج</a>
                 </div>
-                
-                
-                </div>
+            </div>
 
 
             
