@@ -109,7 +109,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
           <div class="col-md-12">
             <div class="_lk_de">
               <div class="form-03-main">
-                <h2 class="card-title text-center"> تسجيل الدخول إلى صفحة بالمؤسسات </h2>
+                <h2 class="card-title text-center"> تسجيل الدخول إلى صفحة المؤسسات </h2>
                 <div class="logo">
                   <img src="assets/images/user.png">
                 </div>
