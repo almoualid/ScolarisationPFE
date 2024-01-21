@@ -9,7 +9,10 @@ if (!isset($_SESSION["user_id"]) || empty($_SESSION["user_id"])) {
 }
 
 // Include your database connection file or handle it as per your setup
- include('conn.php');
+include('conn.php');
+
+// Initialize a variable to track success
+$successMessage = "";
 
 // Check if form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -52,14 +55,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Execute the statement
         $stmt->execute();
 
-        echo "New record created successfully";
+        // Set the success message
+        $successMessage = "تم التسجيل بنجاح";
         
     } catch (PDOException $e) {
         echo "Error: " . $e->getMessage();
     }
 }
 ?>
-
 
 
 <!DOCTYPE html>
@@ -82,11 +85,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         .container {
             margin-top: 20px;
         }
-
-        img {
+        a {
+            text-decoration: none; 
+            color: white; 
+        }
+        im
             width: 300px;
             height: auto;
             margin-bottom: 20px;
+        }
+        #view-data{
+            text-decoration: none; 
+            color: white; 
+
         }
 
         h3 {
@@ -110,6 +121,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         .btn-logout {
             margin-top: 20px;
         }
+        .custom-success-alert {
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+            color: #155724;
+        }
     </style>
 </head>
 
@@ -127,11 +143,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <option selected>جماعة <?php echo $_SESSION["commune"]; ?></option>
             </select>
         </div>
+        <?php if (!empty($successMessage)) : ?>
+        <div id="success-alert" class="alert alert-success custom-success-alert text-center" role="alert">
+            <?php echo $successMessage; ?>
+        </div>
+
+        <script>
+            setTimeout(function () {
+                document.getElementById('success-alert').style.display = 'none';
+            }, 3000);
+        </script>
+    <?php endif; ?>
 
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
             <h4 class='text text-center'>  إضافة تلميذ(ة) جديد(ة) </h4> <br>
             <div class="col-md-12">
-                    <label for="NumInscription" class="form-label">رقم التسجيل</label>
+                    <label for="NumInscription" class="form-label">رقم التسجيل </label>
                     <input type="text" class="form-control" id="NumInscription" name="NumInscription" required>
             </div>
             <div class="mb-3 row">
@@ -191,20 +218,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             <div class="mb-3 row">
                 <div class="col-md-6">
-                <button type="submit" class="btn btn-primary w-100 ">إرسال</button>
+                    <button type="submit" class="btn btn-primary w-100">إرسال</button>
                 </div>
                 <div class="col-md-6">
-                   <a href="logout.php" class="btn btn-danger w-100 ">تسجيل الخروج</a>
+                    <button class="btn btn-danger w-100"><a href="logout.php">تسجيل الخروج</a></button>
                 </div>
-            </div>
-
-
-            
-            
+                <div class="col-md-12 mt-3">
+                    <a href="view_data.php" class="btn btn-info w-100" id='view-data'>عرض البيانات</a>
+                </div>
+            </div>  
         </form>
+     
 
-       
-   
+    
 </body>
 
 </html>
