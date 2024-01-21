@@ -89,7 +89,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             text-decoration: none; 
             color: white; 
         }
-        im
+        img{
             width: 300px;
             height: auto;
             margin-bottom: 20px;
