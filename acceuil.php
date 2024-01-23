@@ -154,7 +154,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }, 3000);
         </script>
     <?php endif; ?>
-
+    
+        <div class="float-start mt-3">
+            <button class="btn btn-danger"><a href="logout.php" class="text-white">تسجيل الخروج</a></button>
+        </div>
+    
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
             <h4 class='text text-center'>  إضافة تلميذ(ة) جديد(ة) </h4> <br>
             <div class="col-md-12">
@@ -216,17 +220,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <textarea class="form-control" id="Remarque" name="Remarque" rows="3"></textarea>
             </div>
 
-            <div class="mb-3 row">
-                <div class="col-md-6">
+            
+                <div class="col-md-12 mt-3">
                     <button type="submit" class="btn btn-primary w-100">إرسال</button>
-                </div>
-                <div class="col-md-6">
-                    <button class="btn btn-danger w-100"><a href="logout.php">تسجيل الخروج</a></button>
                 </div>
                 <div class="col-md-12 mt-3">
                     <a href="view_data.php" class="btn btn-info w-100" id='view-data'>عرض البيانات</a>
                 </div>
-            </div>  
+            
         </form>
      
 
