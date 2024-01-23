@@ -4,13 +4,35 @@ session_start();
 // Include your database connection file or handle it as per your setup
 include('conn.php');
 
-// Fetch data from the Eleve table
+// Initialize variables for search
+$searchNumInscription = '';
+$searchResultMessage = '';
+
+// Check if the search form is submitted
+if (isset($_POST['search'])) {
+    $searchNumInscription = $_POST['searchNumInscription'];
+}
+
+// Fetch data from the Eleve table based on the search criteria
 try {
-    $sql = "SELECT * FROM Eleve WHERE id_Inst = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bindParam(1, $_SESSION["user_id"]);
+    if (!empty($searchNumInscription)) {
+        $sql = "SELECT * FROM Eleve WHERE id_Inst = ? AND NumInscription = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bindParam(1, $_SESSION["user_id"]);
+        $stmt->bindParam(2, $searchNumInscription);
+    } else {
+        $sql = "SELECT * FROM Eleve WHERE id_Inst = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bindParam(1, $_SESSION["user_id"]);
+    }
+
     $stmt->execute();
     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    // Check if the result set is empty
+    if (empty($result) && !empty($searchNumInscription)) {
+        $searchResultMessage = 'لا يوجد نتائج للبحث عن رقم التسجيل المحدد.';
+    }
 } catch (PDOException $e) {
     echo "Error: " . $e->getMessage();
 }
@@ -24,58 +46,118 @@ try {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>عرض البيانات</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
-</head>
-
-
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.1/css/responsive.bootstrap5.min.css">
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             direction: rtl;
+            background-color: #f5f5f5;
+            padding-top: 20px;
         }
 
         .container {
             margin-top: 50px;
+            background: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
+            background-color: #fcfcfc;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
-
-        th, td {
-            padding: 10px;
-            border: 1px solid #ddd;
+        table.tbody tr:nth-of-type(odd) {
+                background-color: #fcfcfc;
+            }
+        table.tbody tr:hover {
+                background: #f5f5f5;
+            }
+        th,
+        td {
+            padding: 12px;
+            border: 1px solid #dee2e6;
             text-align: center;
         }
+        td a {
+                font-weight: bold;
+                color: #566787;
+                display: inline-block;
+                text-decoration: none;
+                outline: none !important;
+            }
+        td a:hover {
+                color: #2196f3;
+            }
 
         th {
             background-color: #343a40;
             color: white;
+            font-size: 13px;
+                margin: 0 5px;
+                cursor: pointer;
         }
 
         tr:hover {
-            background-color: #f5f5f5;
+            background-color: #f1f1f1;
         }
 
         .btn {
             margin-right: 5px;
+            margin-top:5px;
+        }
+
+        h3 {
+            color: #343a40;
+        }
+
+        .btn-container {
+            margin-bottom: 20px;
+        }
+        .alert {
+            margin-top: 20px;
+        }
+        .btn-container {
+            text-align: center;
+        }
+        label{
+            position: absolute;
+            right: 170px;
+            top: 100px;
+            width: -90px;
         }
     </style>
 </head>
 
 <body>
     <div class="container mt-4">
-        <!-- Display data in a table -->
+    
+    <div class="btn-container text-center">
+            <a href="acceuil.php" class="btn btn-primary">العودة إلى الصفحة الرئيسية</a>
+        </div>
+    <form method="post" class="mb-3">
+            <div class="form-group">
+                <label for="searchNumInscription">البحث برقم التسجيل:</label>
+                <input type="text" class="form-control" id="searchNumInscription" name="searchNumInscription" value="<?php echo $searchNumInscription; ?>">
+            </div>
+            <button type="submit" class="btn btn-primary" name="search">ابحث<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+              <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+            </svg>
+            </button>
+        </form>
+        <?php if (!empty($searchResultMessage)) : ?>
+            <div class="alert alert-warning" role="alert">
+                <?php echo $searchResultMessage; ?>
+            </div>
+        <?php endif; ?>
+
+        <!-- Afficher les données dans un tableau -->
         <h3 class="mb-4 text-center">عرض البيانات</h3>
-        <a href="acceuil.php" class="btn btn-primary">العودة إلى الصفحة الرئيسية</a>
+
         <table class="table">
             <thead class="thead-dark">
                 <tr>
@@ -88,7 +170,7 @@ try {
                     <th scope="col">مكان الازدياد</th>
                     <th scope="col">السنة الدراسية</th>
                     <th scope="col">تاريخ الانقطاع عن الدراسة</th>
-                    <th scope="col">ملاحظة</th>
+                    <th scope="col"> ملاحظة </th>
                     <th scope="col">إجراءات</th>
                 </tr>
             </thead>
@@ -106,35 +188,33 @@ try {
                         <td><?php echo $row["DateAbandonnement"]; ?></td>
                         <td><?php echo $row["Remarque"]; ?></td>
                         <td>
-                            <!-- Edit and Delete links with Bootstrap styling -->
                             <a href="edit_data.php?NumInscription=<?php echo $row["NumInscription"]; ?>" class="btn btn-warning btn-sm">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-brush-fill" viewBox="0 0 16 16">
-                                    <path d="M15.825.12a.5.5 0 0 1 .132.584c-1.53 3.43-4.743 8.17-7.095 10.64a6.067 6.067 0 0 1-2.373 1.534c-.018.227-.06.538-.16.868-.201.659-.667 1.479-1.708 1.74a8.118 8.118 0 0 1-3.078.132 3.659 3.659 0 0 1-.562-.135 1.382 1.382 0 0 1-.466-.247.714.714 0 0 1-.204-.288.622.622 0 0 1 .004-.443c.095-.245.316-.38.461-.452.394-.197.625-.453.867-.826.095-.144.184-.297.287-.472l.117-.198c.151-.255.326-.54.546-.848.528-.739 1.201-.925 1.746-.896.126.007.243.025.348.048.062-.172.142-.38.238-.608.261-.619.658-1.419 1.187-2.069 2.176-2.67 6.18-6.206 9.117-8.104a.5 .5 0 0 1 .596.04z" />
-                                </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill-gear" viewBox="0 0 16 16">
+                               <path d="M11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0m-9 8c0 1 1 1 1 1h5.256A4.5 4.5 0 0 1 8 12.5a4.5 4.5 0 0 1 1.544-3.393Q8.844 9.002 8 9c-5 0-6 3-6 4m9.886-3.54c.18-.613 1.048-.613 1.229 0l.043.148a.64.64 0 0 0 .921.382l.136-.074c.561-.306 1.175.308.87.869l-.075.136a.64.64 0 0 0 .382.92l.149.045c.612.18.612 1.048 0 1.229l-.15.043a.64.64 0 0 0-.38.921l.074.136c.305.561-.309 1.175-.87.87l-.136-.075a.64.64 0 0 0-.92.382l-.045.149c-.18.612-1.048.612-1.229 0l-.043-.15a.64.64 0 0 0-.921-.38l-.136.074c-.561.305-1.175-.309-.87-.87l.075-.136a.64.64 0 0 0-.382-.92l-.148-.045c-.613-.18-.613-1.048 0-1.229l.148-.043a.64.64 0 0 0 .382-.921l-.074-.136c-.306-.561.308-1.175.869-.87l.136.075a.64.64 0 0 0 .92-.382zM14 12.5a1.5 1.5 0 1 0-3 0 1.5 1.5 0 0 0 3 0"/>
+                           </svg>
+                                تحرير
                             </a>
-                            <a onclick="return confirm('هل أنت متأكد أنك تريد حقًا حذف التلميذ؟')" href="delete_data.php?NumInscription=<?php echo $row["NumInscription"]; ?>" class="btn btn-danger btn-sm">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
-                                    <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
-                                </svg>
-                            </a>
-                            <a href="#"class="btn btn-primary btn-sm">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
-                                <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z"/>
-                                <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0"/>
+                            <a href="delete_data.php?NumInscription=<?php echo $row["NumInscription"]; ?>" class="btn btn-danger btn-sm">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill-x" viewBox="0 0 16 16">
+                                <path d="M11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0m-9 8c0 1 1 1 1 1h5.256A4.5 4.5 0 0 1 8 12.5a4.5 4.5 0 0 1 1.544-3.393Q8.844 9.002 8 9c-5 0-6 3-6 4"/>
+                                 <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7m-.646-4.854.646.647.646-.647a.5.5 0 0 1 .708.708l-.647.646.647.646a.5.5 0 0 1-.708.708l-.646-.647-.646.647a.5.5 0 0 1-.708-.708l.647-.646-.647-.646a.5.5 0 0 1 .708-.708"/>
                             </svg>
+                                حذف
+                            </a>
+                             <!-- Add a button to view the certificate -->
+                             <a href="view_certificate.php?NumInscription=<?php echo $row["NumInscription"]; ?>" class="btn btn-info btn-sm" target="_blank">
+                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                                   <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0"/>
+                                    <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8m8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7"/>
+                              </svg>
+                                عرض 
                             </a>
                         </td>
-                        
                     </tr>
                 <?php endforeach; ?>
             </tbody>
         </table>
-       
     </div>
-
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </body>
 
 </html>
