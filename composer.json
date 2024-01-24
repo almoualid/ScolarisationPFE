@@ -1,0 +1,25 @@
+{
+    "name": "your/project-name",
+    "description": "Description of your project",
+    "type": "project",
+    "license": "MIT",
+    "require": {
+        "phpoffice/phpspreadsheet": "^1.29",
+        "tecnickcom/tcpdf": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "": "src/"
+        }
+    },
+    "scripts": {
+        "post-autoload-dump": [
+            "PhpOffice\\PhpSpreadsheet\\Tests\\Resources\\installFonts.php"
+        ]
+    },
+    "config": {
+        "platform": {
+            "php": "8.2.0"
+        }
+    }
+}
