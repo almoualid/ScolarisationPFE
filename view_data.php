@@ -213,6 +213,7 @@ try {
                 <?php endforeach; ?>
             </tbody>
         </table>
+        <a href="exportExcel.php"> <button type="button" name="button">Export To Excel</button> </a>
     </div>
     <script>
     function confirmDelete() {
