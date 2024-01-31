@@ -137,7 +137,9 @@ try {
     <div class="container mt-4">
     
     <div class="btn-container text-center">
-            <a href="acceuil.php" class="btn btn-primary">العودة إلى الصفحة الرئيسية</a>
+            <a href="acceuil.php" class="btn btn-primary"> الصفحة الرئيسية <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house-door-fill" viewBox="0 0 16 16">
+  <path d="M6.5 14.5v-3.505c0-.245.25-.495.5-.495h2c.25 0 .5.25.5.5v3.5a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5"/>
+</svg></a>
         </div>
     <form method="post" class="mb-3">
             <div class="form-group">
@@ -213,7 +215,14 @@ try {
                 <?php endforeach; ?>
             </tbody>
         </table>
-        <a href="exportExcel.php"> <button type="button" name="button">Export To Excel</button> </a>
+        <a href="exportExcel.php" style="text-decoration: none;">
+              <button type="button" name="button" style="background-color: #4caf50; color: #fff; padding: 10px 20px; font-size: 16px; border: none; border-radius: 5px; cursor: pointer;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-ruled" viewBox="0 0 16 16">
+                     <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2M9.5 3A1.5 1.5 0 0 0 11 4.5h2V9H3V2a1 1 0 0 1 1-1h5.5zM3 12v-2h2v2zm0 1h2v2H4a1 1 0 0 1-1-1zm3 2v-2h7v1a1 1 0 0 1-1 1zm7-3H6v-2h7z"/>
+                </svg>
+                تحميل البيانات بصيغة Excel
+               </button>
+        </a>
     </div>
     <script>
     function confirmDelete() {
