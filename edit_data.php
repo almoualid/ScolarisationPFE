@@ -56,6 +56,12 @@ if (isset($_GET['NumInscription'])) {
                         <input type="hidden" name="NumInscription" value="<?php echo $row["NumInscription"]; ?>">
                     </div>
                     <div class="form-group row">
+                        <label for="NiveauScolaire" class="col-md-3 col-form-label text-md-right">المستوى الدراسي</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" id="NiveauScolaire" name="NiveauScolaire" value="<?php echo $row["NiveauScolaire"]; ?>">
+                        </div>
+                    </div>
+                    <div class="form-group row">
                         <label for="NomArabeEleve" class="col-md-3 col-form-label text-md-right">الاسم العائلي باللغة العربية:</label>
                         <div class="col-md-6">
                             <input type="text" class="form-control" id="NomArabeEleve" name="NomArabeEleve" value="<?php echo $row["NomArabeEleve"]; ?>" required>
