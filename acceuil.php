@@ -18,6 +18,7 @@ $successMessage = "";
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Retrieve form data
     $numInscription = $_POST["NumInscription"];
+    $NiveauScolaire = $_POST["NiveauScolaire"];
     $nomArabeEleve = $_POST["NomArabeEleve"];
     $nomFrancaisEleve = $_POST["NomFrancaisEleve"];
     $prenomArabeEleve = $_POST["PrenomArabeEleve"];
@@ -33,24 +34,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     try {
         // Insert data into Eleve table
-        $sql = "INSERT INTO Eleve (NumInscription,NomArabeEleve, PrenomFrancaisEleve, PrenomArabeEleve, NomFrancaisEleve, DateNaissance, LieuNaissance, AnneeScolaire, DateAbandonnement, Remarque, id_Inst)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO Eleve (NumInscription,NiveauScolaire,NomArabeEleve, PrenomFrancaisEleve, PrenomArabeEleve, NomFrancaisEleve, DateNaissance, LieuNaissance, AnneeScolaire, DateAbandonnement, Remarque, id_Inst)
+                VALUES (?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         // Prepare the statement
         $stmt = $conn->prepare($sql);
 
         // Bind parameters
         $stmt->bindParam(1, $numInscription);
-        $stmt->bindParam(2, $nomArabeEleve);
-        $stmt->bindParam(3, $prenomFrancaisEleve);
-        $stmt->bindParam(4, $prenomArabeEleve);
-        $stmt->bindParam(5, $nomFrancaisEleve);
-        $stmt->bindParam(6, $dateNaissance);
-        $stmt->bindParam(7, $lieuNaissance);
-        $stmt->bindParam(8, $anneeScolaire);
-        $stmt->bindParam(9, $dateAbandonnement);
-        $stmt->bindParam(10, $remarque);
-        $stmt->bindParam(11, $_SESSION["user_id"]); 
+        $stmt->bindParam(2, $NiveauScolaire);
+        $stmt->bindParam(3, $nomArabeEleve);
+        $stmt->bindParam(4, $prenomFrancaisEleve);
+        $stmt->bindParam(5, $prenomArabeEleve);
+        $stmt->bindParam(6, $nomFrancaisEleve);
+        $stmt->bindParam(7, $dateNaissance);
+        $stmt->bindParam(8, $lieuNaissance);
+        $stmt->bindParam(9, $anneeScolaire);
+        $stmt->bindParam(10, $dateAbandonnement);
+        $stmt->bindParam(11, $remarque);
+        $stmt->bindParam(12, $_SESSION["user_id"]); 
 
         // Execute the statement
         $stmt->execute();
@@ -126,6 +128,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             border-color: #c3e6cb;
             color: #155724;
         }
+    
     </style>
 </head>
 
@@ -154,17 +157,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }, 3000);
         </script>
     <?php endif; ?>
-    
+    <div class="float-LEFT mt-3">
+            <button class="btn btn-primary w-10"><a href="change_password.php">تغيير كلمة المرور</a></button>
+        </div>
         <div class="float-start mt-3">
             <button class="btn btn-danger"><a href="logout.php" class="text-white">تسجيل الخروج</a></button>
         </div>
+        
     
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
             <h4 class='text text-center'>  إضافة تلميذ(ة) جديد(ة) </h4> <br>
-            <div class="col-md-12">
-                    <label for="NumInscription" class="form-label">رقم التسجيل </label>
+            <div class="mb-3 row">
+                <div class="col-md-6">
+                <label for="NumInscription" class="form-label">رقم التسجيل </label>
                     <input type="text" class="form-control" id="NumInscription" name="NumInscription" required>
-            </div>
+                </div>
+                <div class="col-md-6">
+                    <label for=" NiveauScolaire" class="form-label">المستوى الدراسي</label>
+                    <input type="text" class="form-control" id=" NiveauScolaire" name=" NiveauScolaire" required>
+                </div>
             <div class="mb-3 row">
                 <div class="col-md-6">
                     <label for="NomArabeEleve" class="form-label">الاسم العائلي باللغة العربية</label>
