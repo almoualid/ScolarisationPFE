@@ -8,6 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Check if all necessary fields are set
     if (
         isset($_POST['NumInscription']) &&
+        isset($_POST['NiveauScolaire']) &&
         isset($_POST['NomArabeEleve']) &&
         isset($_POST['NomFrancaisEleve']) &&
         isset($_POST['PrenomArabeEleve']) &&
@@ -19,6 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         try {
             // Prepare the SQL UPDATE statement
             $sql = "UPDATE Eleve SET 
+                    NiveauScolaire = :NiveauScolaire,
                     NomArabeEleve = :NomArabeEleve,
                     NomFrancaisEleve = :NomFrancaisEleve,
                     PrenomArabeEleve = :PrenomArabeEleve,
@@ -34,6 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt = $conn->prepare($sql);
 
             // Bind parameters
+            $stmt->bindParam(':NiveauScolaire', $_POST['NiveauScolaire']);
             $stmt->bindParam(':NomArabeEleve', $_POST['NomArabeEleve']);
             $stmt->bindParam(':NomFrancaisEleve', $_POST['NomFrancaisEleve']);
             $stmt->bindParam(':PrenomArabeEleve', $_POST['PrenomArabeEleve']);
@@ -49,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Execute the query
             $stmt->execute();
 
-            // Redirect to the view_data.php page after successful update
+            // Redirect to the view_data.php page after a successful update
             header("Location: view_data.php");
             exit();
         } catch (PDOException $e) {
