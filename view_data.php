@@ -48,89 +48,7 @@ try {
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.1/css/responsive.bootstrap5.min.css">
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            direction: rtl;
-            background-color: #f5f5f5;
-            padding-top: 20px;
-        }
-
-        .container {
-            margin-top: 50px;
-            background: #fff;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-            background-color: #fcfcfc;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        table.tbody tr:nth-of-type(odd) {
-                background-color: #fcfcfc;
-            }
-        table.tbody tr:hover {
-                background: #f5f5f5;
-            }
-        th,
-        td {
-            padding: 12px;
-            border: 1px solid #dee2e6;
-            text-align: center;
-        }
-        td a {
-                font-weight: bold;
-                color: #566787;
-                display: inline-block;
-                text-decoration: none;
-                outline: none !important;
-            }
-        td a:hover {
-                color: #2196f3;
-            }
-
-        th {
-            background-color: #343a40;
-            color: white;
-            font-size: 13px;
-                margin: 0 5px;
-                cursor: pointer;
-        }
-
-        tr:hover {
-            background-color: #f1f1f1;
-        }
-
-        .btn {
-            margin-right: 5px;
-            margin-top:5px;
-        }
-
-        h3 {
-            color: #343a40;
-        }
-
-        .btn-container {
-            margin-bottom: 20px;
-        }
-        .alert {
-            margin-top: 20px;
-        }
-        .btn-container {
-            text-align: center;
-        }
-        label{
-            position: absolute;
-            right: 170px;
-            top: 100px;
-            width: -90px;
-        }
-    </style>
+    
 </head>
 
 <body>
@@ -161,6 +79,7 @@ try {
             <thead class="thead-dark">
                 <tr>
                     <th scope="col">رقم التسجيل</th>
+                    <th scope="col">المستوى الدراسي</th>
                     <th scope="col">الاسم العائلي باللغة العربية</th>
                     <th scope="col">الاسم العائلي باللغة الفرنسية</th>
                     <th scope="col">الاسم الشخصي باللغة العربية</th>
@@ -177,6 +96,7 @@ try {
                 <?php foreach ($result as $row) : ?>
                     <tr>
                         <td><?php echo $row["NumInscription"]; ?></td>
+                        <td><?php echo $row["NiveauScolaire"]; ?></td>
                         <td><?php echo $row["NomArabeEleve"]; ?></td>
                         <td><?php echo $row["NomFrancaisEleve"]; ?></td>
                         <td><?php echo $row["PrenomArabeEleve"]; ?></td>
