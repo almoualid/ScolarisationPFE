@@ -37,15 +37,15 @@ Ce projet est un Système d'Archivage des Certificats Scolaires conçu pour gér
 
 2. Installez les dépendances PHP via Composer :
    ```bash 
-   ==composer install==
+   <mark>composer install</mark>
 
 3. Bibliothèque PhpOffice\PhpSpreadsheet installée via Composer :
    ``` bash
-   ==composer require phpoffice/phpspreadsheet==
+   <mark>composer require phpoffice/phpspreadsheet</mark>
 
 4. Bibliothèque mpdf installée via Composer :
    ```bash
-   ==composer require mpdf/mpdf==
+   <mark>composer require mpdf/mpdf</mark>
 
 ### Contact
 
