@@ -20,8 +20,9 @@ $all_commune_result = $conn->query($all_commune_query);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=*, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-Znp0nRUUru8jT9hj1ZZJo2q8WcA0SzE9APWbHoGwZ7D5qUgTbY7w+V5et3+dzojY7o8K3oi/Op7MR1iQ6zDbkA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" crossorigin="anonymous">
+ 
+ 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
     <style>
@@ -30,11 +31,11 @@ $all_commune_result = $conn->query($all_commune_query);
             background-color: #f8f9fa;
             margin: 20px;
         }
-
-        
+ 
+       
         a {
-            text-decoration: none; 
-            color: white; 
+            text-decoration: none;
+            color: white;
         }
         img{
             width: 300px;
@@ -43,52 +44,62 @@ $all_commune_result = $conn->query($all_commune_query);
             margin-right: 500px;
         }
         #view-data{
-            text-decoration: none; 
-            color: white; 
-
+            text-decoration: none;
+            color: white;
+ 
         }
-
+ 
         h3 {
             text-align: center;
             margin-bottom: 30px;
         }
-        able {
+        table {
         width: 100%;
         border-collapse: collapse;
         margin-top: 20px;
     }
-
+ 
     th, td {
         border: 1px solid #ddd;
         padding: 8px;
         text-align: center;
     }
-
+ 
     th {
         background-color: #f2f2f2;
     }
-
+ 
     /* Add styles for the actions icons */
     .action-icons {
-        display: flex;
+       
         justify-content: space-around;
     }
-
+ 
     .action-icons a {
         text-decoration: none;
         color: #007bff;
         margin: 0 5px;
     }
-
+ 
     </style>
     </style>
 </head>
 <body>
     <img class="header-log img-fluid" id="logo-men" src="./images/LogoMenAr.png" style="max-width: 100%;">
    
-    <h3>مرحبا بكم , <?php echo $_SESSION["admin_nom"]; ?> <?php echo $_SESSION["admin_prenom"] ?></h3>
+    <h3> مرحبا بكم , المديرية الإقليمية ورزازات</h3>
     <br>
  
+    <div class="float-start mt-3">
+            <button class="btn btn-danger" style="margin-top: -75px; "><a href="logoutAdmin.php" class="text-white">تسجيل الخروج</a></button>
+    </div>
+   &nbsp;
+    <div class="float-left mt-3">
+            <button class="btn btn-primary" style="margin-top: -100px; margin-right:10px"><a href="addEleveAdmin.php" class="text-white">إضافة تلميذ(ة) <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill-add" viewBox="0 0 16 16">
+                   <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7m.5-5v1h1a.5.5 0 0 1 0 1h-1v1a.5.5 0 0 1-1 0v-1h-1a.5.5 0 0 1 0-1h1v-1a.5.5 0 0 1 1 0m-2-6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+                    <path d="M2 13c0 1 1 1 1 1h5.256A4.5 4.5 0 0 1 8 12.5a4.5 4.5 0 0 1 1.544-3.393Q8.844 9.002 8 9c-5 0-6 3-6 4"/>
+            </svg></a></button>
+    </div>
     <form style="display:flex;">
         <!-- Dropdown for All Communes -->
         <div class="form-group">
@@ -110,13 +121,11 @@ $all_commune_result = $conn->query($all_commune_query);
  
         <!-- Your existing content -->
  
-        
-        
+       
+       
     </form>
-    
-    <div class="float-start mt-3">
-            <button class="btn btn-danger" style="margin-top: -100px;"><a href="logoutAdmin.php" class="text-white">تسجيل الخروج</a></button>
-    </div>
+   
+   
     <table class="table">
         <thead>
             <tr>
@@ -125,6 +134,7 @@ $all_commune_result = $conn->query($all_commune_query);
                 <th scope="col">الاسم العائلي باللغة الفرنسية</th>
                 <th scope="col">الاسم الشخصي باللغة العربية</th>
                 <th scope="col">الاسم الشخصي باللغة الفرنسية</th>
+                <th scope="col">المستوى الدراسي</th>
                 <th scope="col">تاريخ الازدياد</th>
                 <th scope="col">مكان الازدياد</th>
                 <th scope="col">السنة الدراسية</th>
@@ -135,7 +145,7 @@ $all_commune_result = $conn->query($all_commune_query);
         </thead>
         <tbody id="studentsTableBody"></tbody>
     </table>
-
+ 
     <script>
         // JavaScript to dynamically update the institute dropdown and table based on the selected commune
         document.getElementById('allCommuneDropdown').addEventListener('change', function () {
@@ -174,24 +184,24 @@ $all_commune_result = $conn->query($all_commune_query);
                 option.text = selectedInstitute[i].NomArabeInst;
                 instituteDropdown.add(option);
             }
-
+ 
             // Trigger the change event for the institute dropdown
             var event = new Event('change');
             instituteDropdown.dispatchEvent(event);
         });
-
+ 
         document.getElementById('instituteDropdown').addEventListener('change', function () {
             var selectedInstitute = this.value;
             updateStudentsTable(selectedInstitute);
         });
-
+ 
         function updateStudentsTable(selectedInstitute) {
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function () {
+               var xhttp = new XMLHttpRequest();
+               xhttp.onreadystatechange = function () {
         if (this.readyState == 4) {
             console.log('Response:', this.responseText); // Log the response
             console.log('Status:', this.status); // Log the status
-
+ 
             if (this.status == 200) {
                 try {
                     var studentsData = JSON.parse(this.responseText);
@@ -204,16 +214,16 @@ $all_commune_result = $conn->query($all_commune_query);
             }
         }
     };
-
+ 
     xhttp.open("GET", "fetch_students.php?institute=" + selectedInstitute, true);
     xhttp.send();
 }
-
-
+ 
+ 
         function displayStudentsTable(studentsData) {
             var studentsTableBody = document.getElementById('studentsTableBody');
             studentsTableBody.innerHTML = '';
-            
+           
             for (var i = 0; i < studentsData.length; i++) {
                 var row = document.createElement('tr');
                 row.innerHTML = '<td>' + studentsData[i].NumInscription+ '</td>' +
@@ -221,15 +231,16 @@ $all_commune_result = $conn->query($all_commune_query);
                                  '<td>' + studentsData[i].PrenomFrancaisEleve+ '</td>' +
                                  '<td>' + studentsData[i].PrenomArabeEleve+ '</td>' +
                                  '<td>' + studentsData[i].NomFrancaisEleve+ '</td>' +
+                                 '<td>' + studentsData[i].NiveauScolaire+ '</td>' +
                                  '<td>' + studentsData[i].DateNaissance + '</td>' +
                                  '<td>' + studentsData[i].LieuNaissance+ '</td>' +
                                  '<td>' + studentsData[i].AnneeScolaire+ '</td>' +
                                  '<td>' + studentsData[i].DateAbandonnement+ '</td>' +
                                  '<td>' + studentsData[i].Remarque+ '</td>' +
                                  '<td class="action-icons">' +
-                                   '<a href="#" title="تعديل"><i class="fas fa-edit"></i></a>' +
-                                   '<a href="#" title="حذف"><i class="fas fa-trash"></i></a>' +
-                                   '<a href="#" title="عرض"><i class="fas fa-eye"></i></a>' +
+                                  '<a href="EditDataAdmin.php?NumInscription=' + studentsData[i].NumInscription + '" title="تعديل"><i class="fas fa-edit"></i></a>' +
+ 
+                                   '<a href="viewCertificatAdmin.php?NumInscription=' + studentsData[i].NumInscription + '" title="عرض"><i class="fas fa-eye"></i></a>' +
                                    '</td>';  
                 studentsTableBody.appendChild(row);
             }
