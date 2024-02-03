@@ -39,94 +39,108 @@ if (isset($_GET['NumInscription'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>تعديل البيانات</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            margin-top: 50px;
+        }
+
+        .card {
+            background-color: #ffffff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        button {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 
 <body>
-    <div class="container mt-4">
+    <div class="container">
         <!-- Form to edit data -->
-        <h3 class="mb-4 text-center">تعديل البيانات</h3>
-        <form action="update_data.php" method="post">
-            <div class="card">
-                <div class="card-body">
-                    <div class="form-group row">
-                        <label for="NumInscription" class="col-md-3 col-form-label text-md-right">رقم التسجيل:</label>
-                        <div class="col-md-6">
-                            <input type="text" class="form-control" id="NumInscription" name="NumInscription" value="<?php echo $row["NumInscription"]; ?>" required readonly>
-                        </div>
-                        <input type="hidden" name="NumInscription" value="<?php echo $row["NumInscription"]; ?>">
-                    </div>
-                    <div class="form-group row">
-                        <label for="NiveauScolaire" class="col-md-3 col-form-label text-md-right">المستوى الدراسي</label>
-                        <div class="col-md-6">
-                            <input type="text" class="form-control" id="NiveauScolaire" name="NiveauScolaire" value="<?php echo $row["NiveauScolaire"]; ?>">
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="NomArabeEleve" class="col-md-3 col-form-label text-md-right">الاسم العائلي باللغة العربية:</label>
-                        <div class="col-md-6">
-                            <input type="text" class="form-control" id="NomArabeEleve" name="NomArabeEleve" value="<?php echo $row["NomArabeEleve"]; ?>" required>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="NomFrancaisEleve" class="col-md-3 col-form-label text-md-right">الاسم العائلي باللغة الفرنسية:</label>
-                        <div class="col-md-6">
-                            <input type="text" class="form-control" id="NomFrancaisEleve" name="NomFrancaisEleve" value="<?php echo $row["NomFrancaisEleve"]; ?>" required>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="PrenomArabeEleve" class="col-md-3 col-form-label text-md-right">الاسم الشخصي باللغة العربية:</label>
-                        <div class="col-md-6">
-                            <input type="text" class="form-control" id="PrenomArabeEleve" name="PrenomArabeEleve" value="<?php echo $row["PrenomArabeEleve"]; ?>" required>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="PrenomFrancaisEleve" class="col-md-3 col-form-label text-md-right">الاسم الشخصي باللغة الفرنسية:</label>
-                        <div class="col-md-6">
-                            <input type="text" class="form-control" id="PrenomFrancaisEleve" name="PrenomFrancaisEleve" value="<?php echo $row["PrenomFrancaisEleve"]; ?>" required>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="DateNaissance" class="col-md-3 col-form-label text-md-right">تاريخ الازدياد:</label>
-                        <div class="col-md-6">
-                            <input type="date" class="form-control" id="DateNaissance" name="DateNaissance" value="<?php echo $row["DateNaissance"]; ?>" required>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="LieuNaissance" class="col-md-3 col-form-label text-md-right">مكان الازدياد:</label>
-                        <div class="col-md-6">
-                            <input type="text" class="form-control" id="LieuNaissance" name="LieuNaissance" value="<?php echo $row["LieuNaissance"]; ?>" required>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="AnneeScolaire" class="col-md-3 col-form-label text-md-right">السنة الدراسية:</label>
-                        <div class="col-md-6">
-                            <input type="text" class="form-control" id="AnneeScolaire" name="AnneeScolaire" value="<?php echo $row["AnneeScolaire"]; ?>" required>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="DateAbandonnement" class="col-md-3 col-form-label text-md-right">تاريخ الانقطاع عن الدراسة:</label>
-                        <div class="col-md-6">
-                            <input type="date" class="form-control" id="DateAbandonnement" name="DateAbandonnement" value="<?php echo $row["DateAbandonnement"]; ?>">
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="Remarque" class="col-md-3 col-form-label text-md-right">ملاحظة:</label>
-                        <div class="col-md-6">
-                            <textarea class="form-control" id="Remarque" name="Remarque"><?php echo $row["Remarque"]; ?></textarea>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <div class="col-md-6 offset-md-3">
-                            <button type="submit" class="btn btn-primary">حفظ التغييرات <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-floppy-fill" viewBox="0 0 16 16">
-  <path d="M0 1.5A1.5 1.5 0 0 1 1.5 0H3v5.5A1.5 1.5 0 0 0 4.5 7h7A1.5 1.5 0 0 0 13 5.5V0h.086a1.5 1.5 0 0 1 1.06.44l1.415 1.414A1.5 1.5 0 0 1 16 2.914V14.5a1.5 1.5 0 0 1-1.5 1.5H14v-5.5A1.5 1.5 0 0 0 12.5 9h-9A1.5 1.5 0 0 0 2 10.5V16h-.5A1.5 1.5 0 0 1 0 14.5z"/>
-  <path d="M3 16h10v-5.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5zm9-16H4v5.5a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5zM9 1h2v4H9z"/>
-</svg></button>
-                        </div>
+        <div class="card">
+            <h3 class="mb-4 text-center">تعديل البيانات</h3>
+            <form action="update_data.php" method="post">
+                <div class="form-group">
+                    <label for="NumInscription" class="float-right mt-3">رقم التسجيل:</label>
+                    <input type="text" class="form-control" id="NumInscription" name="NumInscription" value="<?php echo $row["NumInscription"]; ?>" required readonly>
+                    <input type="hidden" name="NumInscription" value="<?php echo $row["NumInscription"]; ?>">
+                </div>
+
+                <div class="form-group">
+                    <label for="NomArabeEleve" class="float-right mt-3">الاسم العائلي باللغة العربية:</label>
+                    <input type="text" class="form-control" id="NomArabeEleve" name="NomArabeEleve" value="<?php echo $row["NomArabeEleve"]; ?>" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="NomFrancaisEleve" class="float-right mt-3">الاسم العائلي باللغة الفرنسية:</label>
+                    <input type="text" class="form-control" id="NomFrancaisEleve" name="NomFrancaisEleve" value="<?php echo $row["NomFrancaisEleve"]; ?>" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="PrenomArabeEleve" class="float-right mt-3">الاسم الشخصي باللغة العربية:</label>
+                    <input type="text" class="form-control" id="PrenomArabeEleve" name="PrenomArabeEleve" value="<?php echo $row["PrenomArabeEleve"]; ?>" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="PrenomFrancaisEleve" class="float-right mt-3">الاسم الشخصي باللغة الفرنسية:</label>
+                    <input type="text" class="form-control" id="PrenomFrancaisEleve" name="PrenomFrancaisEleve" value="<?php echo $row["PrenomFrancaisEleve"]; ?>" required>
+                </div>
+                
+
+                <div class="form-group">
+                    <label for="DateNaissance" class="float-right mt-3">تاريخ الازدياد:</label>
+                    <input type="date" class="form-control" id="DateNaissance" name="DateNaissance" value="<?php echo $row["DateNaissance"]; ?>" required>
+                </div>
+                <div class="form-group">
+                    <label for="LieuNaissance" class="float-right mt-3">مكان الازدياد:</label>
+                    <input type="text" class="form-control" id="LieuNaissance" name="LieuNaissance" value="<?php echo $row["LieuNaissance"]; ?>" required> 
+                </div>
+                <div class="form-group">
+                    <label for="AnneeScolaire" class="float-right mt-3">السنة الدراسية:</label>
+                    <input type="text" class="form-control" id="AnneeScolaire" name="AnneeScolaire" value="<?php echo $row["AnneeScolaire"]; ?>" required>
+                </div>
+                <div class="form-group">
+                    <label for="DateAbandonnement"class="float-right mt-3">تاريخ الانقطاع عن الدراسة:</label>
+                    <input type="date" class="form-control" id="DateAbandonnement" name="DateAbandonnement" value="<?php echo $row["DateAbandonnement"]; ?>">
+                </div>
+                <div class="form-group">
+                    <label for="NiveauScolaire" class="float-right mt-3">المستوى الدراسي:</label>
+                    <input type="text" class="form-control" id="NiveauScolaire" name="NiveauScolaire" value="<?php echo $row["NiveauScolaire"]; ?>" required>
+                <div class="form-group">
+                    <label for="Remarque" class="float-right mt-3">ملاحظة:</label>
+                    <input class="form-control" id="Remarque" name="Remarque" value="<?php echo $row["Remarque"]; ?>">
+                </div>
+                <div class="form-group">
+                        <button type="submit" class="btn btn-primary w-100">حفظ التغييرات</button>
                     </div>
                 </div>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
+
+  
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
