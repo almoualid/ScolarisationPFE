@@ -31,7 +31,7 @@
             border-top: 1px solid #d2d6de;
             padding: 12px;
             text-align: center;
-            margin-top:60px;
+            margin-top:110px;
         }
 
         .accueil-component {
@@ -55,7 +55,7 @@
         .accueil-component-icon {
             margin: 0 auto;
             border: 0px solid;
-            width: 208px;
+            width: 150px;
             border-radius: 50%;
         }
 
