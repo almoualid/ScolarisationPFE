@@ -11,7 +11,7 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 try {
     // Fetch data from the Eleve table
-    $sql = "SELECT * FROM Eleve WHERE id_Inst = ?";
+    $sql = "SELECT NumInscription ,NomArabeEleve,PrenomFrancaisEleve,PrenomArabeEleve,NomFrancaisEleve,DateNaissance,LieuNaissance,AnneeScolaire,DateAbandonnement,Remarque,NiveauScolaire FROM Eleve WHERE id_Inst = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bindParam(1, $_SESSION["user_id"]);
     $stmt->execute();
@@ -32,7 +32,9 @@ try {
         'مكان الازدياد',
         'السنة الدراسية',
         'تاريخ الانقطاع عن الدراسة',
-        'ملاحظة'
+        'ملاحظة',
+        'المستوى'
+
         
     );
 
