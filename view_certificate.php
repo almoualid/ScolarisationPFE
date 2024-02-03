@@ -5,7 +5,6 @@ session_start();
 include('conn.php');
 require 'vendor/autoload.php'; // Include Composer's autoloader
 
-
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Mpdf\Mpdf;
@@ -16,10 +15,9 @@ if (isset($_GET['NumInscription'])) {
 
     // Fetch student details based on NumInscription
     try {
-        $sql = "SELECT * FROM Eleve WHERE id_Inst = ? AND NumInscription = ?";
+        $sql = "SELECT * FROM Eleve WHERE NumInscription = ?";
         $stmt = $conn->prepare($sql);
-        $stmt->bindParam(1, $_SESSION["user_id"]);
-        $stmt->bindParam(2, $numInscription);
+        $stmt->bindParam(1, $numInscription);
         $stmt->execute();
         $studentDetails = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -35,148 +33,9 @@ if (isset($_GET['NumInscription'])) {
     // Function to generate PDF and output it
     function generateAndOutputPDF($studentDetails)
     {
-        $mpdf = new Mpdf();
+        $mpdf = new Mpdf(['mode' => 'utf8mb4_general_ci', 'format' => 'A2']);
         // Customize PDF content based on your requirements
-            // Activer la prise en charge automatique de la police en fonction de la langue
-    $mpdf->autoLangToFont = true;
-
-    // Définir la police et l'encodage si nécessaire
-    $mpdf->SetFont('Arial Unicode MS', '', 26);
-
-        $mpdf->WriteHTML('
-            <html lang="ar" dir="rtl">
-            <head>
-                <meta charset="UTF-8">
-                <title>شهادة مدرسية</title>
-                <style>
-                .letter {
-                    background-color: #fff;
-                    padding: 20px;
-                    border-radius: 10px;
-                }
-
-                .header {
-                    text-align: center;
-                    font-size: 24px;
-                    font-weight: bold;
-                    margin-bottom: 20px;
-                    border-style: solid;
-                }
-
-                .content {
-                    font-size: 26px;
-                    text-align: right;
-                }
-                .content p {
-                    font-size: 20px; /* Taille de police pour les paragraphes */
-                }
-
-                .content th, .content td {
-                    font-size: 24px; /* Taille de police pour les cellules de tableau */
-                }
-            </style>
-            </head>
-            <body>
-            <div class="letter">
-            <header>
-            <table cellpadding="30px">
-                <thead>
-                    <tr>
-
-                        <th rowspan=3><img src="./images/LogoMenAr.png" alt="" srcset=""></th>
-                    </tr>
-                </thead>
-            </table>
-        </header>
-        <div class="header">
-             <h1> شهادة مدرسية رقم : ' . $studentDetails['NumInscription'] . '</h1>
-        </div>
-        <div class="content">
-
-                <table cellpadding="15px" width="990px">
-                    <thead>
-                        <tr>
-                            <th>
-                                <p><strong>ت / يشهد الموقع اسفله أن التلميذ :</strong>
-                            </th>
-                            <th>
-
-                            </th>
-                        </tr>
-                        <tr>
-                            <th>
-                                <p><strong>الاسم:</strong> ' . $studentDetails['NomArabeEleve'] . '</p>
-                            </th>
-                            <th>
-
-                            </th>
-                            <th>
-                                <p><strong>الاسم الشخصي:</strong> ' . $studentDetails['PrenomArabeEleve'] . '</p>
-                            </th>
-                        </tr>
-                        <tr>
-                            <th>
-                                <p><strong>الاسم الفرنسي:</strong> ' . $studentDetails['NomFrancaisEleve'] . '</p>
-                            </th>
-                            <th>
-
-                            </th>
-                            <th>
-                                <p><strong>الاسم الشخصي الفرنسي:</strong> ' . $studentDetails['PrenomFrancaisEleve'] . '</p>
-                            </th>
-                        </tr>
-                        <tr>
-                            <th>
-                                <p><strong>تاريخ الازدياد:</strong> ' . $studentDetails['DateNaissance'] . '</p>
-                            </th>
-                            <th>
-
-                            </th>
-                            <th>
-                                <p><strong>مكان الازدياد:</strong> ' . $studentDetails['LieuNaissance'] . '</p>
-                            </th>
-                        </tr>
-                        <tr>
-                            <th>
-                                <p><strong>کان/ت ت/يتابع دراسته (ها) بهذه المؤسسة موسم :</strong> </p>
-                            </th>
-                            <th>
-
-                            </th>
-                            <th>
-                                ' . $studentDetails['AnneeScolaire'] . '
-                            </th>
-                        </tr>
-                        <tr>
-                            <th>
-                                <p><strong>تاريخ الانقطاع عن الدراسة:</strong> ' . $studentDetails['DateAbandonnement'] . '</p>
-                            </th>
-                            <th>
-
-                            </th>
-                        </tr>
-                        <tr>
-                            <th>
-                                <p><strong>ملاحظة:</strong> ' . $studentDetails['Remarque'] . '</p>
-                            </th>
-                            <th>
-
-                            </th>
-                            <th>
-                                حررب ورزازات في ' . date('d/m/Y') . ' <br><br>
-                                خاتم و توقيع رئيس المؤسسة
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-
-                    </tbody>
-                </table>
-                </div>
-                </div>
-            </body>
-        </html>
-        ');
+        // ...
 
         // Output PDF as a download
         $mpdf->Output('certificate_' . $studentDetails['NumInscription'] . '.pdf', 'D');
@@ -214,8 +73,9 @@ if (isset($_GET['NumInscription'])) {
         .letter {
             background-color: #fff;
             padding: 20px;
+            margin-left: 100px;
             border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            
         }
 
         .header {
@@ -238,17 +98,19 @@ if (isset($_GET['NumInscription'])) {
     </style>
 </head>
 
-<body>
+<!-- ... (your HTML head and body tags) ... -->
+
+<body class="body">
     <div class="container">
         <div class="letter">
-            <header>
+        <header>
                 <table cellpadding="30px">
                     <thead>
                         <tr>
                             <th>
                                 الأكاديمية الجهوية للتربية والتكوين <br><br>
-                                المديرية الإقليمية : ورزازات <br><br>
-                                الجهة درعة تافيلالت
+                                المديرية الإقليمية ورزازات <br><br>
+                                جهة درعة تافيلالت
                             </th>
                             <th rowspan=3><img src="./images/LogoMenAr.png" alt="" srcset=""></th>
                         </tr>
@@ -256,81 +118,83 @@ if (isset($_GET['NumInscription'])) {
                 </table>
             </header>
             <div class="header">
-                <h1> شهادة مدرسية رقم : <?php echo $studentDetails['NumInscription']; ?></h1>
+                <h1> شهادة مدرسية رقم <strong id="point">:</strong> ........................</h1>
             </div>
 
             <div class="content">
                 <table cellpadding="15px" width="990px">
                     <thead>
-                        <tr>
+                        <tr style="font-size: 20px;" >
                             <th>
-                                <p><strong>ت / يشهد الموقع اسفله أن التلميذ :</strong>
+                                <p>ت يشهد الموقع اسفله أن التلميذ    <strong id="point">:</strong>
+                            </th>
+                            <th>
+
+                            </th>
+                            <th>
+                            رقم التسجيل <strong id="point">:</strong><?php echo $studentDetails['NumInscription']; ?>
+                            </th>
+                        </tr>
+                        <tr style="font-size: 20px;">
+                        <th>
+                           <p> الإسم العائلي<strong id="point">:</strong><?php echo $studentDetails['NomArabeEleve']; ?></p>
+                        </th>
+                            <th>
+
+                            </th>
+                            <th>
+                                <p>الاسم الشخصي<strong id="point">:</strong> <?php echo $studentDetails['PrenomArabeEleve']; ?></p>
+                            </th>
+                        </tr>
+                        <tr style="font-size: 20px;">
+                            <th>
+                                <p> الاسم العائلي بالفرنسية <strong id="point">:</strong> <?php echo $studentDetails['NomFrancaisEleve']; ?></p>
+                            </th>
+                            <th>
+
+                            </th>
+                            <th>
+                                <p> الاسم الشخصي بالفرنسية <strong id="point">:</strong><?php echo $studentDetails['PrenomFrancaisEleve']; ?></p>
+                            </th>
+                        </tr>
+                        <tr style="font-size: 20px;">
+                            <th>
+                                <p>تاريخ الازدياد <strong id="point">:</strong><?php echo $studentDetails['DateNaissance']; ?></p>
+                            </th>
+                            <th>
+
+                            </th>
+                            <th>
+                                <p>مكان الازدياد <strong id="point">:</strong> <?php echo $studentDetails['LieuNaissance']; ?></p>
+                            </th>
+                        </tr>
+                        <tr style="font-size: 20px;">
+                            <th>
+                                <p>کان/ت ت/يتابع دراسته (ها) بهذه المؤسسة موسم <strong id="point">:</strong>  <?php echo $studentDetails['AnneeScolaire']; ?></p>
+                            </th>
+                            <th>
+                            </th>
+                            <th>
+                            بمستوى <strong id="point">:</strong> <?php echo $studentDetails['NiveauScolaire']?>
+                            </th>
+                        </tr>
+                        <tr style="font-size: 20px;">
+                            <th>
+                                <p>تاريخ الانقطاع عن الدراسة <strong id="point">:</strong>  <?php echo $studentDetails['DateAbandonnement']; ?></p>
                             </th>
                             <th>
 
                             </th>
                         </tr>
-                        <tr>
+                        <tr style="font-size: 20px;">
                             <th>
-                                <p><strong>الاسم:</strong> <?php echo $studentDetails['NomArabeEleve']; ?></p>
+                                <p> ملاحظة <strong id="point">:</strong> <?php echo $studentDetails['Remarque']; ?></p>
                             </th>
                             <th>
 
                             </th>
                             <th>
-                                <p><strong>الاسم الشخصي:</strong> <?php echo $studentDetails['PrenomArabeEleve']; ?></p>
-                            </th>
-                        </tr>
-                        <tr>
-                            <th>
-                                <p><strong>الاسم الفرنسي:</strong> <?php echo $studentDetails['NomFrancaisEleve']; ?></p>
-                            </th>
-                            <th>
-
-                            </th>
-                            <th>
-                                <p><strong>الاسم الشخصي الفرنسي:</strong> <?php echo $studentDetails['PrenomFrancaisEleve']; ?></p>
-                            </th>
-                        </tr>
-                        <tr>
-                            <th>
-                                <p><strong>تاريخ الازدياد:</strong> <?php echo $studentDetails['DateNaissance']; ?></p>
-                            </th>
-                            <th>
-
-                            </th>
-                            <th>
-                                <p><strong>مكان الازدياد:</strong> <?php echo $studentDetails['LieuNaissance']; ?></p>
-                            </th>
-                        </tr>
-                        <tr>
-                            <th>
-                                <p><strong>کان/ت ت/يتابع دراسته (ها) بهذه المؤسسة موسم :</strong> </p>
-                            </th>
-                            <th>
-
-                            </th>
-                            <th>
-                                <?php echo $studentDetails['AnneeScolaire']; ?>
-                            </th>
-                        </tr>
-                        <tr>
-                            <th>
-                                <p><strong>تاريخ الانقطاع عن الدراسة:</strong> <?php echo $studentDetails['DateAbandonnement']; ?></p>
-                            </th>
-                            <th>
-
-                            </th>
-                        </tr>
-                        <tr>
-                            <th>
-                                <p><strong>ملاحظة:</strong> <?php echo $studentDetails['Remarque']; ?></p>
-                            </th>
-                            <th>
-
-                            </th>
-                            <th>
-                                حررب ورزازات في <?php echo date('d/m/Y'); ?> <br><br>
+                                حرر ب ورزازات في <?php echo date('d/m/Y'); ?> <br><br>
                                 خاتم و توقيع رئيس المؤسسة
                             </th>
                         </tr>
@@ -339,29 +203,69 @@ if (isset($_GET['NumInscription'])) {
 
                     </tbody>
                 </table>
-            </div><br><br>
+        </div>
 
             <div class="footer">
-                <form method="post" action="">
-                    <button type="submit" class="btn btn-success" name="download">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-pdf" viewBox="0 0 16 16">
-                    <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2M9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5z"/>
-                     <path d="M4.603 14.087a.8.8 0 0 1-.438-.42c-.195-.388-.13-.776.08-1.102.198-.307.526-.568.897-.787a7.7 7.7 0 0 1 1.482-.645 20 20 0 0 0 1.062-2.227 7.3 7.3 0 0 1-.43-1.295c-.086-.4-.119-.796-.046-1.136.075-.354.274-.672.65-.823.192-.077.4-.12.602-.077a.7.7 0 0 1 .477.365c.088.164.12.356.127.538.007.188-.012.396-.047.614-.084.51-.27 1.134-.52 1.794a11 11 0 0 0 .98 1.686 5.8 5.8 0 0 1 1.334.05c.364.066.734.195.96.465.12.144.193.32.2.518.007.192-.047.382-.138.563a1.04 1.04 0 0 1-.354.416.86.86 0 0 1-.51.138c-.331-.014-.654-.196-.933-.417a5.7 5.7 0 0 1-.911-.95 11.7 11.7 0 0 0-1.997.406 11.3 11.3 0 0 1-1.02 1.51c-.292.35-.609.656-.927.787a.8.8 0 0 1-.58.029m1.379-1.901q-.25.115-.459.238c-.328.194-.541.383-.647.547-.094.145-.096.25-.04.361q.016.032.026.044l.035-.012c.137-.056.355-.235.635-.572a8 8 0 0 0 .45-.606m1.64-1.33a13 13 0 0 1 1.01-.193 12 12 0 0 1-.51-.858 21 21 0 0 1-.5 1.05zm2.446.45q.226.245.435.41c.24.19.407.253.498.256a.1.1 0 0 0 .07-.015.3.3 0 0 0 .094-.125.44.44 0 0 0 .059-.2.1.1 0 0 0-.026-.063c-.052-.062-.2-.152-.518-.209a4 4 0 0 0-.612-.053zM8.078 7.8a7 7 0 0 0 .2-.828q.046-.282.038-.465a.6.6 0 0 0-.032-.198.5.5 0 0 0-.145.04c-.087.035-.158.106-.196.283-.04.192-.03.469.046.822q.036.167.09.346z"/>
-                      </svg>
+                <form method="post">
+                    <button class="btn btn-success" name="download" type="submit">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-pdf-fill" viewBox="0 0 16 16">
+                         <path d="M5.523 12.424q.21-.124.459-.238a8 8 0 0 1-.45.606c-.28.337-.498.516-.635.572l-.035.012a.3.3 0 0 1-.026-.044c-.056-.11-.054-.216.04-.36.106-.165.319-.354.647-.548m2.455-1.647q-.178.037-.356.078a21 21 0 0 0 .5-1.05 12 12 0 0 0 .51.858q-.326.048-.654.114m2.525.939a4 4 0 0 1-.435-.41q.344.007.612.054c.317.057.466.147.518.209a.1.1 0 0 1 .026.064.44.44 0 0 1-.06.2.3.3 0 0 1-.094.124.1.1 0 0 1-.069.015c-.09-.003-.258-.066-.498-.256M8.278 6.97c-.04.244-.108.524-.2.829a5 5 0 0 1-.089-.346c-.076-.353-.087-.63-.046-.822.038-.177.11-.248.196-.283a.5.5 0 0 1 .145-.04c.013.03.028.092.032.198q.008.183-.038.465z"/>
+                          <path fill-rule="evenodd" d="M4 0h5.293A1 1 0 0 1 10 .293L13.707 4a1 1 0 0 1 .293.707V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2m5.5 1.5v2a1 1 0 0 0 1 1h2zM4.165 13.668c.09.18.23.343.438.419.207.075.412.04.58-.03.318-.13.635-.436.926-.786.333-.401.683-.927 1.021-1.51a11.7 11.7 0 0 1 1.997-.406c.3.383.61.713.91.95.28.22.603.403.934.417a.86.86 0 0 0 .51-.138c.155-.101.27-.247.354-.416.09-.181.145-.37.138-.563a.84.84 0 0 0-.2-.518c-.226-.27-.596-.4-.96-.465a5.8 5.8 0 0 0-1.335-.05 11 11 0 0 1-.98-1.686c.25-.66.437-1.284.52-1.794.036-.218.055-.426.048-.614a1.24 1.24 0 0 0-.127-.538.7.7 0 0 0-.477-.365c-.202-.043-.41 0-.601.077-.377.15-.576.47-.651.823-.073.34-.04.736.046 1.136.088.406.238.848.43 1.295a20 20 0 0 1-1.062 2.227 7.7 7.7 0 0 0-1.482.645c-.37.22-.699.48-.897.787-.21.326-.275.714-.08 1.103"/>
+                    </svg>
                         تحميل الشهادة بصيغة PDF
                     </button>
                 </form>
-                <form method="post" action="formatexel.php?NumInscription=<?php echo $studentDetails['NumInscription']; ?>">
-                   <button type="submit" class="btn btn-success" name="download">
-                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-ruled" viewBox="0 0 16 16">
-                     <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2M9.5 3A1.5 1.5 0 0 0 11 4.5h2V9H3V2a1 1 0 0 1 1-1h5.5zM3 12v-2h2v2zm0 1h2v2H4a1 1 0 0 1-1-1zm3 2v-2h7v1a1 1 0 0 1-1 1zm7-3H6v-2h7z"/>
-                   </svg>
-                   تحميل الشهادة بصيغة Exel
-    </button>
-</form>
             </div>
         </div>
     </div>
+
+    <!-- Include html2pdf.js library -->
+    <script src="https://rawgit.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>
+
+    <script>
+    document.querySelector('form').addEventListener('submit', function (event) {
+        event.preventDefault(); // Prevent the default form submission
+        var element = document.querySelector('.container');
+        element.style.marginTop = '-100px';
+        element.style.height = '1000px';
+        point=document.getElementById('point');
+        point.style.textAlign='left';
+
+       
+
+
+        html2pdf(element, {
+            margin: 10,
+            filename: 'certificate.pdf',
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 2 },
+            jsPDF: { unit: 'mm', format: 'a3', orientation: 'portrait' },
+            font: [
+                { family: 'Sherif' },
+            ],
+            onBeforeSaveAs: (pdf, name) => {
+                // Customize the styles for th and td elements
+                pdf.output('datauristring', (dataUri) => {
+                    const div = document.createElement('div');
+                    div.innerHTML = '<style>' +
+                        'th, td { text-align: left !important; }' +
+                        '</style>' +
+                        '<img src="' + dataUri + '">';
+                    const pdfElement = div.firstElementChild;
+                    
+                    // Remove previous styles
+                    pdfElement.removeAttribute('style');
+                    
+                    // Add additional styles if needed
+                    
+                    // Save the modified PDF
+                    pdf.save(name);
+                });
+            },
+        });
+    });
+</script>
+
 </body>
 
 </html>
