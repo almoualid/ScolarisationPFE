@@ -105,6 +105,7 @@ $all_commune_result = $conn->query($all_commune_query);
         <div class="form-group">
             <label for="allCommuneDropdown">اختر الجماعة (الكل):</label>
             <select class="form-select" id="allCommuneDropdown">
+                <option valu="choisi">ختر الجماعة</opotion>
                 <?php
                 while ($row = $all_commune_result->fetch(PDO::FETCH_ASSOC)) {
                     echo "<option value='{$row["CodeCommune"]}'>{$row["NomArabeCommune"]}</option>";
@@ -145,7 +146,13 @@ $all_commune_result = $conn->query($all_commune_query);
         </thead>
         <tbody id="studentsTableBody"></tbody>
     </table>
- 
+    
+<div class="position-absolute bottom-0 end-0">
+    <button class="btn btn-success" id="exportToExcel" style="margin-top: -100px; margin-right:10px">تصدير إلى Excel <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-spreadsheet-fill" viewBox="0 0 16 16">
+  <path d="M6 12v-2h3v2z"/>
+  <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0M9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1M3 9h10v1h-3v2h3v1h-3v2H9v-2H6v2H5v-2H3v-1h2v-2H3z"/>
+</svg></button>
+</div>
     <script>
         // JavaScript to dynamically update the institute dropdown and table based on the selected commune
         document.getElementById('allCommuneDropdown').addEventListener('change', function () {
@@ -246,5 +253,39 @@ $all_commune_result = $conn->query($all_commune_query);
             }
         }
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.3/xlsx.full.min.js"></script>
+    <script>
+        // Add an event listener for the export button
+document.getElementById('exportToExcel').addEventListener('click', function () {
+    exportToExcel();
+});
+
+// Function to export data to Excel
+function exportToExcel() {
+    var studentsTable = document.getElementById('studentsTableBody');
+    var studentsData = [];
+
+    // Extract data from the table
+    for (var i = 0; i < studentsTable.rows.length; i++) {
+        var rowData = [];
+        for (var j = 0; j < studentsTable.rows[i].cells.length - 1; j++) { // Exclude the last cell with action icons
+            rowData.push(studentsTable.rows[i].cells[j].innerText);
+        }
+        studentsData.push(rowData);
+    }
+
+    // Create a worksheet
+    var ws = XLSX.utils.aoa_to_sheet([['رقم التسجيل', 'الاسم العائلي باللغة العربية', 'الاسم العائلي باللغة الفرنسية', 'الاسم الشخصي باللغة العربية', 'الاسم الشخصي باللغة الفرنسية', 'المستوى الدراسي', 'تاريخ الازدياد', 'مكان الازدياد', 'السنة الدراسية', 'تاريخ الانقطاع عن الدراسة', 'ملاحظة']]);
+    XLSX.utils.sheet_add_json(ws, studentsData, { origin: "A2" });
+
+    // Create a workbook
+    var wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+
+    // Save the workbook to a file
+    XLSX.writeFile(wb, 'students_data.xlsx');
+}
+    </script>
+
 </body>
 </html>
