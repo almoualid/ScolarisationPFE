@@ -93,6 +93,9 @@ $all_commune_result = $conn->query($all_commune_query);
     <div class="float-start mt-3">
             <button class="btn btn-danger" style="margin-top: -75px; "><a href="logoutAdmin.php" class="text-white">تسجيل الخروج</a></button>
     </div>
+    <div class="float-start mt-3 mt-right">
+            <button class='btn btn-primary'  style="margin-top: -75px;margin-left:10px; "><a href="ChangeMotDePasse.php">تغيير كلمة المرور</a></button>
+        </div>
    &nbsp;
     <div class="float-left mt-3">
             <button class="btn btn-primary" style="margin-top: -100px; margin-right:10px"><a href="addEleveAdmin.php" class="text-white">إضافة تلميذ(ة) <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill-add" viewBox="0 0 16 16">
@@ -105,7 +108,7 @@ $all_commune_result = $conn->query($all_commune_query);
         <div class="form-group">
             <label for="allCommuneDropdown">اختر الجماعة (الكل):</label>
             <select class="form-select" id="allCommuneDropdown">
-                <option valu="choisi">ختر الجماعة</opotion>
+                <option valu="choisi">اختر الجماعة</opotion>
                 <?php
                 while ($row = $all_commune_result->fetch(PDO::FETCH_ASSOC)) {
                     echo "<option value='{$row["CodeCommune"]}'>{$row["NomArabeCommune"]}</option>";
@@ -255,17 +258,17 @@ $all_commune_result = $conn->query($all_commune_query);
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.3/xlsx.full.min.js"></script>
     <script>
-        // Add an event listener for the export button
+
 document.getElementById('exportToExcel').addEventListener('click', function () {
     exportToExcel();
 });
 
-// Function to export data to Excel
+
 function exportToExcel() {
     var studentsTable = document.getElementById('studentsTableBody');
     var studentsData = [];
 
-    // Extract data from the table
+ 
     for (var i = 0; i < studentsTable.rows.length; i++) {
         var rowData = [];
         for (var j = 0; j < studentsTable.rows[i].cells.length - 1; j++) { // Exclude the last cell with action icons
@@ -274,15 +277,12 @@ function exportToExcel() {
         studentsData.push(rowData);
     }
 
-    // Create a worksheet
     var ws = XLSX.utils.aoa_to_sheet([['رقم التسجيل', 'الاسم العائلي باللغة العربية', 'الاسم العائلي باللغة الفرنسية', 'الاسم الشخصي باللغة العربية', 'الاسم الشخصي باللغة الفرنسية', 'المستوى الدراسي', 'تاريخ الازدياد', 'مكان الازدياد', 'السنة الدراسية', 'تاريخ الانقطاع عن الدراسة', 'ملاحظة']]);
     XLSX.utils.sheet_add_json(ws, studentsData, { origin: "A2" });
 
-    // Create a workbook
     var wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
 
-    // Save the workbook to a file
     XLSX.writeFile(wb, 'students_data.xlsx');
 }
     </script>
