@@ -133,7 +133,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             color: #155724;
         }
         .header-log{
-            margin-right: 410px;
+            margin-right: 409px;
         }
     
     </style>
@@ -158,7 +158,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
            
     
     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-            <h4 class='text text-center'>  إضافة تلميذ(ة) جديد(ة) </h4> <br>
+            <h4 class='text text-center'>  إضافة تلميذ(ة) جديد(ة)   </h4> <br>
 
             
 
