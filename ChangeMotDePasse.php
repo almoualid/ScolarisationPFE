@@ -96,7 +96,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             text-align: center;
         }
 
-        .form-label {
+        .col-md-12  {
             font-weight: bold;
         }
 
@@ -147,17 +147,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                 <div class="mb-3">
-                    <label for="currentPassword" class="form-label">كلمة المرور الحالية</label>
+                    <label for="currentPassword" class="col-md-12 col-form-label text-md-right">كلمة المرور الحالية</label>
                     <input type="password" class="form-control" id="currentPassword" name="currentPassword" required>
                 </div>
 
                 <div class="mb-3">
-                    <label for="newPassword" class="form-label">كلمة المرور الجديدة</label>
+                    <label for="newPassword" class="col-md-12 col-form-label text-md-right">كلمة المرور الجديدة</label>
                     <input type="password" class="form-control" id="newPassword" name="newPassword" required>
                 </div>
 
                 <div class="mb-3">
-                    <label for="confirmPassword" class="form-label">تأكيد كلمة المرور</label>
+                    <label for="confirmPassword" class="col-md-12 col-form-label text-md-right">تأكيد كلمة المرور</label>
                     <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
                 </div>
 
