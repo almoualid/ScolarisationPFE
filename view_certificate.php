@@ -194,8 +194,8 @@ if (isset($_GET['NumInscription'])) {
 
                             </th>
                             <th>
-                                حرر ب ورزازات في <?php echo date('d/m/Y'); ?> <br><br>
-                                خاتم و توقيع رئيس المؤسسة
+                                 حرر ب ورزازات في  <?php echo date('d/m/Y'); ?> <br><br>
+                                خاتم و توقيع رئيس  المؤسسة
                             </th>
                         </tr>
                     </thead>
@@ -225,8 +225,8 @@ if (isset($_GET['NumInscription'])) {
     <script>
     document.querySelector('form').addEventListener('submit', function (event) {
         event.preventDefault(); // Prevent the default form submission
-        var element = document.querySelector('.container');
-        element.style.marginTop = '-100px';
+        var element = document.querySelector('.letter');
+        element.style.marginTop = '-175px';
         element.style.height = '1000px';
         point=document.getElementById('point');
         point.style.textAlign='left';
