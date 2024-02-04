@@ -141,7 +141,7 @@ $all_commune_result = $conn->query($all_commune_query);
                 <th scope="col">السنة الدراسية</th>
                 <th scope="col">تاريخ الانقطاع عن الدراسة</th>
                 <th scope="col">ملاحظة</th>
-                <th scope="col">إجراءات</th>
+                <th scope="col">إجراءات </th>
             </tr>
         </thead>
         <tbody id="studentsTableBody"></tbody>
