@@ -52,6 +52,7 @@ $all_commune_result = $conn->query($all_commune_query);
         h3 {
             text-align: center;
             margin-bottom: 30px;
+            margin-left: 60px;
         }
         table {
         width: 100%;
