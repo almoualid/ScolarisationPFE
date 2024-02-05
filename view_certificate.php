@@ -3,11 +3,7 @@ session_start();
 
 // Include your database connection file or handle it as per your setup
 include('conn.php');
-require 'vendor/autoload.php'; // Include Composer's autoloader
 
-use PhpOffice\PhpSpreadsheet\Spreadsheet;
-use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
-use Mpdf\Mpdf;
 
 // Check if NumInscription is provided in the URL
 if (isset($_GET['NumInscription'])) {
@@ -29,243 +25,283 @@ if (isset($_GET['NumInscription'])) {
     } catch (PDOException $e) {
         echo "Error: " . $e->getMessage();
     }
-
-    // Function to generate PDF and output it
-    function generateAndOutputPDF($studentDetails)
-    {
-        $mpdf = new Mpdf(['mode' => 'utf8mb4_general_ci', 'format' => 'A2']);
-        // Customize PDF content based on your requirements
-        // ...
-
-        // Output PDF as a download
-        $mpdf->Output('certificate_' . $studentDetails['NumInscription'] . '.pdf', 'D');
-    }
-
-    // Check if download button is clicked
-    if (isset($_POST['download'])) {
-        generateAndOutputPDF($studentDetails);
-        exit; // Ensure that no further output is sent after generating the PDF
-    }
 } else {
     echo "NumInscription parameter is missing.";
     exit;
 }
 ?>
 
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>عرض الشهادة</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Add your additional styles or certificates styling here -->
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
     <style>
-        body {
-            font-family: 'times', serif;
-            background-color: silver;
+         fieldset {
+            border: 4px solid #000; /* Adjust the border properties as needed */
+            padding: 20px; /* Optional: Add padding for better visual appearance */
         }
 
-        .container {
-            margin-top: 50px;
-        }
+    
+        .two {
+            border: solid 2px black;
+            width: 400px;
 
-        .letter {
-            background-color: #fff;
-            padding: 20px;
-            margin-left: 100px;
-            border-radius: 10px;
-            
-        }
-
-        .header {
-            text-align: center;
-            font-size: 24px;
-            font-weight: bold;
-            margin-bottom: 20px;
-            border-style: solid;
-        }
-
-        .content {
-            font-size: 26px;
-            text-align: right;
-        }
-
-        .footer {
-            margin-top: 20px;
-            text-align: center;
         }
     </style>
 </head>
 
-<!-- ... (your HTML head and body tags) ... -->
+<body style="width: 100%;"><br>
+    <fieldset class='container'>
 
-<body class="body">
-    <div class="container">
-        <div class="letter">
-        <header>
-                <table cellpadding="30px">
-                    <thead>
-                        <tr>
-                            <th>
-                                الأكاديمية الجهوية للتربية والتكوين <br><br>
-                                المديرية الإقليمية ورزازات <br><br>
-                                جهة درعة تافيلالت
-                            </th>
-                            <th rowspan=3><img src="./images/LogoMenAr.png" alt="" srcset=""></th>
-                        </tr>
-                    </thead>
-                </table>
-            </header>
-            <div class="header">
-                <h1> شهادة مدرسية رقم <strong id="point">:</strong> ........................</h1>
+        <div class="container text-center">
+
+            <div class="row">
+                <div class="col-6 col-md-4">
+                    <div class="trois" style="text-align: right; margin-top: 20px; ">
+                        <h6> الجماعة<strong id="point">:</strong> <?php echo $_SESSION["commune"]; ?>             
+                        <br>المؤسسة<strong id="point">:</strong> <?php echo $_SESSION["user_name"]; ?>
+                        <br>
+                             الهاتف<strong id="point">:</strong> 
+                            </h6>
+
+                    </div>
+                </div>
+
+
+                <div class="col-6 col-md-4">
+                    <div class="deux" style="margin-left: 20px;">
+                        <img src="./images/LogoMenAr.png" alt="" height="auto" width="260px" style="margin-top: 20px; margin-left:20px;">
+                    </div>
+                </div>
+
+
+
+                <div class="col-6 col-md-4">
+                    <div class="un" style="text-align: right; margin-top: 20px;">
+                        <h6> الجهة:درعة تافيلالت
+                            <br>
+                            المديرية الاقليمية: اقليم ورزازات
+                        </h6>
+                    </div>
+                </div>
+
             </div>
-
-            <div class="content">
-                <table cellpadding="15px" width="990px">
-                    <thead>
-                        <tr style="font-size: 20px;" >
-                            <th>
-                                <p>ت يشهد الموقع اسفله أن التلميذ    <strong id="point">:</strong>
-                            </th>
-                            <th>
-
-                            </th>
-                            <th>
-                            رقم التسجيل <strong id="point">:</strong><?php echo $studentDetails['NumInscription']; ?>
-                            </th>
-                        </tr>
-                        <tr style="font-size: 20px;">
-                        <th>
-                           <p> الإسم العائلي<strong id="point">:</strong><?php echo $studentDetails['NomArabeEleve']; ?></p>
-                        </th>
-                            <th>
-
-                            </th>
-                            <th>
-                                <p>الاسم الشخصي<strong id="point">:</strong> <?php echo $studentDetails['PrenomArabeEleve']; ?></p>
-                            </th>
-                        </tr>
-                        <tr style="font-size: 20px;">
-                            <th>
-                                <p> الاسم العائلي بالفرنسية <strong id="point">:</strong> <?php echo $studentDetails['NomFrancaisEleve']; ?></p>
-                            </th>
-                            <th>
-
-                            </th>
-                            <th>
-                                <p> الاسم الشخصي بالفرنسية <strong id="point">:</strong><?php echo $studentDetails['PrenomFrancaisEleve']; ?></p>
-                            </th>
-                        </tr>
-                        <tr style="font-size: 20px;">
-                            <th>
-                                <p>تاريخ الازدياد <strong id="point">:</strong><?php echo $studentDetails['DateNaissance']; ?></p>
-                            </th>
-                            <th>
-
-                            </th>
-                            <th>
-                                <p>مكان الازدياد <strong id="point">:</strong> <?php echo $studentDetails['LieuNaissance']; ?></p>
-                            </th>
-                        </tr>
-                        <tr style="font-size: 20px;">
-                            <th>
-                                <p>کان/ت ت/يتابع دراسته (ها) بهذه المؤسسة موسم <strong id="point">:</strong>  <?php echo $studentDetails['AnneeScolaire']; ?></p>
-                            </th>
-                            <th>
-                            </th>
-                            <th>
-                            بمستوى <strong id="point">:</strong> <?php echo $studentDetails['NiveauScolaire']?>
-                            </th>
-                        </tr>
-                        <tr style="font-size: 20px;">
-                            <th>
-                                <p>تاريخ الانقطاع عن الدراسة <strong id="point">:</strong>  <?php echo $studentDetails['DateAbandonnement']; ?></p>
-                            </th>
-                            <th>
-
-                            </th>
-                        </tr>
-                        <tr style="font-size: 20px;">
-                            <th>
-                                <p> ملاحظة <strong id="point">:</strong> <?php echo $studentDetails['Remarque']; ?></p>
-                            </th>
-                            <th>
-
-                            </th>
-                            <th>
-                                 حرر ب ورزازات في  <?php echo date('d/m/Y'); ?> <br><br>
-                                خاتم و توقيع رئيس  المؤسسة
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-
-                    </tbody>
-                </table>
         </div>
 
-            <div class="footer">
-                <form method="post">
-                    <button class="btn btn-success" name="download" type="submit">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-pdf-fill" viewBox="0 0 16 16">
-                         <path d="M5.523 12.424q.21-.124.459-.238a8 8 0 0 1-.45.606c-.28.337-.498.516-.635.572l-.035.012a.3.3 0 0 1-.026-.044c-.056-.11-.054-.216.04-.36.106-.165.319-.354.647-.548m2.455-1.647q-.178.037-.356.078a21 21 0 0 0 .5-1.05 12 12 0 0 0 .51.858q-.326.048-.654.114m2.525.939a4 4 0 0 1-.435-.41q.344.007.612.054c.317.057.466.147.518.209a.1.1 0 0 1 .026.064.44.44 0 0 1-.06.2.3.3 0 0 1-.094.124.1.1 0 0 1-.069.015c-.09-.003-.258-.066-.498-.256M8.278 6.97c-.04.244-.108.524-.2.829a5 5 0 0 1-.089-.346c-.076-.353-.087-.63-.046-.822.038-.177.11-.248.196-.283a.5.5 0 0 1 .145-.04c.013.03.028.092.032.198q.008.183-.038.465z"/>
-                          <path fill-rule="evenodd" d="M4 0h5.293A1 1 0 0 1 10 .293L13.707 4a1 1 0 0 1 .293.707V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2m5.5 1.5v2a1 1 0 0 0 1 1h2zM4.165 13.668c.09.18.23.343.438.419.207.075.412.04.58-.03.318-.13.635-.436.926-.786.333-.401.683-.927 1.021-1.51a11.7 11.7 0 0 1 1.997-.406c.3.383.61.713.91.95.28.22.603.403.934.417a.86.86 0 0 0 .51-.138c.155-.101.27-.247.354-.416.09-.181.145-.37.138-.563a.84.84 0 0 0-.2-.518c-.226-.27-.596-.4-.96-.465a5.8 5.8 0 0 0-1.335-.05 11 11 0 0 1-.98-1.686c.25-.66.437-1.284.52-1.794.036-.218.055-.426.048-.614a1.24 1.24 0 0 0-.127-.538.7.7 0 0 0-.477-.365c-.202-.043-.41 0-.601.077-.377.15-.576.47-.651.823-.073.34-.04.736.046 1.136.088.406.238.848.43 1.295a20 20 0 0 1-1.062 2.227 7.7 7.7 0 0 0-1.482.645c-.37.22-.699.48-.897.787-.21.326-.275.714-.08 1.103"/>
-                    </svg>
-                        تحميل الشهادة بصيغة PDF
-                    </button>
-                </form>
+
+        <div class="container text-center">
+
+            <div class="row">
+
+                <div class="col">
+
+                </div>
+
+                <div class="col">
+                    <div class="row">
+                        <div class="col">
+                            <div class="two">
+                                <h4>شهادة مدرسية رقم <strong id="point">:</strong>.........................</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col">
+
+                </div>
+
             </div>
+        </div>
+        <br>
+
+        <div class="container text-center">
+
+            <div class="row">
+
+                <div class="col-6" style="text-align: right;">
+                    <h3 style="font-size: 15px"> ت/يشهد الموقع (ة) اسفله </h3>
+                    <h3 style="font-size: 15px;"> الإسم <strong id="point">:</strong><?php echo $studentDetails['NomArabeEleve'];?> <?php echo $studentDetails['PrenomArabeEleve']; ?></h3>
+                    <h3 style="font-size: 15px">المولود(ة) في <strong id="point">:</strong> <?php echo $studentDetails['LieuNaissance']; ?></h3>
+                    <h3 style="font-size: 15px;"> رقم التسجيل <strong id="point">:</strong> <?php echo $studentDetails['NumInscription']; ?></h3>
+                    <h3 style="font-size: 15px;">اللغة الاجنبية التانية:اللغة الانجليزية</h3>
+                    <h3 style=" font-size: 15px;"> كان يتابع دراسته في المستوى <strong id="point">:</strong> <?php echo $studentDetails['NiveauScolaire']; ?></h3>
+                    <h3 style=" font-size: 15px;"> و قد غادر المؤسسة بتاريخ <strong id="point">:</strong>  <?php echo $studentDetails['DateAbandonnement']; ?></h3>
+                </div>
+
+                <div class="col-6" style="text-align: justify;">
+                    <br>
+                    <h3 style=" font-size: 15px;"> Nom et Prénom :  <?php echo $studentDetails['NomFrancaisEleve']; ?>  <?php echo $studentDetails['PrenomFrancaisEleve']; ?></h3>
+                    <h3 style="font-size: 15px ;">  بتاريخ <strong id="point">:</strong><?php echo $studentDetails['DateNaissance']; ?></h3>
+                    <br>
+                    <br>
+                    <h3 style=" font-size: 15px;"> للموسم الدراسي <strong id="point">:</strong>  <?php echo $studentDetails['AnneeScolaire']; ?></h3>
+                </div>
+
+            </div>
+        </div>
+
+        <br>
+
+        <div class="container text-center">
+            <!-- Stack the columns on mobile by making one full-width and the other half-width -->
+            <div class="row">
+                <div class="col-md-8">
+                    <h3 style="font-size: 15px; text-align: right;">  ملاحظات <strong id="point">:</strong> <?php echo $studentDetails['Remarque']; ?></h3>
+                </div>
+                <div class="col-6 col-md-4"></div>
+            </div>
+        </div>
+        <br>
+        <div class="container text-center">
+            <!-- Stack the columns on mobile by making one full-width and the other half-width -->
+            <div class="row">
+                <div class="col-6"></div>
+
+                <div class="col-6 " style="text-align: justify;">
+                    <h3 style="font-size: 16px;"> حرر ب <strong id="point">:</strong> <?php echo $_SESSION["commune"]; ?>  </h3>
+                    <h3 style="font-size: 16px;"> في <strong id="point">:</strong> <?php echo date('d/m/Y'); ?> </h3>
+                    <br>
+                    <h3 style="font-size: 16px; "> :خاتم و توقيع رئيس المؤسسة </h3>
+                </div>
+            </div>
+        </div>
+
+
+
+
+        <br><br><br>
+    </fieldset>
+    <br><br><br>
+    <fieldset class='container'>
+
+<div class="container text-center">
+
+    <div class="row">
+        <div class="col-6 col-md-4">
+            <div class="trois" style="text-align: right; margin-top: 20px; ">
+                <h6> الجماعة<strong id="point">:</strong> <?php echo $_SESSION["commune"]; ?>             
+                <br>المؤسسة<strong id="point">:</strong> <?php echo $_SESSION["user_name"]; ?>
+                <br>
+                     الهاتف<strong id="point">:</strong> 
+                    </h6>
+
+            </div>
+        </div>
+
+
+        <div class="col-6 col-md-4">
+            <div class="deux" style="margin-left: 20px;">
+                <img src="./images/LogoMenAr.png" alt="" height="auto" width="260px" style="margin-top: 20px; margin-left:20px;">
+            </div>
+        </div>
+
+
+
+        <div class="col-6 col-md-4">
+            <div class="un" style="text-align: right; margin-top: 20px;">
+                <h6> الجهة:درعة تافيلالت
+                    <br>
+                    المديرية الاقليمية: اقليم ورزازات
+                </h6>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<div class="container text-center">
+
+    <div class="row">
+
+        <div class="col">
+
+        </div>
+
+        <div class="col">
+            <div class="row">
+                <div class="col">
+                    <div class="two">
+                        <h4>شهادة مدرسية رقم <strong id="point">:</strong>.........................</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+
+        </div>
+
+    </div>
+</div>
+<br>
+
+<div class="container text-center">
+
+    <div class="row">
+
+        <div class="col-6" style="text-align: right;">
+            <h3 style="font-size: 15px"> ت/يشهد الموقع (ة) اسفله </h3>
+            <h3 style="font-size: 15px;"> الإسم <strong id="point">:</strong><?php echo $studentDetails['NomArabeEleve'];?> <?php echo $studentDetails['PrenomArabeEleve']; ?></h3>
+            <h3 style="font-size: 15px">المولود(ة) في <strong id="point">:</strong> <?php echo $studentDetails['LieuNaissance']; ?></h3>
+            <h3 style="font-size: 15px;"> رقم التسجيل <strong id="point">:</strong> <?php echo $studentDetails['NumInscription']; ?></h3>
+            <h3 style="font-size: 15px;">اللغة الاجنبية التانية:اللغة الانجليزية</h3>
+            <h3 style=" font-size: 15px;"> كان يتابع دراسته في المستوى <strong id="point">:</strong> <?php echo $studentDetails['NiveauScolaire']; ?></h3>
+            <h3 style=" font-size: 15px;"> و قد غادر المؤسسة بتاريخ <strong id="point">:</strong>  <?php echo $studentDetails['DateAbandonnement']; ?></h3>
+        </div>
+
+        <div class="col-6" style="text-align: justify;">
+            <br>
+            <h3 style=" font-size: 15px;"> Nom et Prénom :  <?php echo $studentDetails['NomFrancaisEleve']; ?>  <?php echo $studentDetails['PrenomFrancaisEleve']; ?></h3>
+            <h3 style="font-size: 15px ;">  بتاريخ <strong id="point">:</strong><?php echo $studentDetails['DateNaissance']; ?></h3>
+            <br>
+            <br>
+            <h3 style=" font-size: 15px;"> للموسم الدراسي <strong id="point">:</strong>  <?php echo $studentDetails['AnneeScolaire']; ?></h3>
+        </div>
+
+    </div>
+</div>
+
+<br>
+
+<div class="container text-center">
+    <!-- Stack the columns on mobile by making one full-width and the other half-width -->
+    <div class="row">
+        <div class="col-md-8">
+            <h3 style="font-size: 15px; text-align: right;">  ملاحظات <strong id="point">:</strong> <?php echo $studentDetails['Remarque']; ?></h3>
+        </div>
+        <div class="col-6 col-md-4"></div>
+    </div>
+</div>
+<br>
+<div class="container text-center">
+    <!-- Stack the columns on mobile by making one full-width and the other half-width -->
+    <div class="row">
+        <div class="col-6"></div>
+
+        <div class="col-6 " style="text-align: justify;">
+            <h3 style="font-size: 16px;"> حرر ب <strong id="point">:</strong> <?php echo $_SESSION["commune"]; ?>  </h3>
+            <h3 style="font-size: 16px;"> في <strong id="point">:</strong> <?php echo date('d/m/Y'); ?> </h3>
+            <br>
+            <h3 style="font-size: 16px; "> خاتم و توقيع رئيس المؤسسة: </h3>
         </div>
     </div>
-
-    <!-- Include html2pdf.js library -->
-    <script src="https://rawgit.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>
-
-    <script>
-    document.querySelector('form').addEventListener('submit', function (event) {
-        event.preventDefault(); // Prevent the default form submission
-        var element = document.querySelector('.letter');
-        element.style.marginTop = '-175px';
-        element.style.height = '1000px';
-        point=document.getElementById('point');
-        point.style.textAlign='left';
-
-       
+</div>
 
 
-        html2pdf(element, {
-            margin: 10,
-            filename: 'certificate.pdf',
-            image: { type: 'jpeg', quality: 0.98 },
-            html2canvas: { scale: 2 },
-            jsPDF: { unit: 'mm', format: 'a3', orientation: 'portrait' },
-            font: [
-                { family: 'Sherif' },
-            ],
-            onBeforeSaveAs: (pdf, name) => {
-                // Customize the styles for th and td elements
-                pdf.output('datauristring', (dataUri) => {
-                    const div = document.createElement('div');
-                    div.innerHTML = '<style>' +
-                        'th, td { text-align: left !important; }' +
-                        '</style>' +
-                        '<img src="' + dataUri + '">';
-                    const pdfElement = div.firstElementChild;
-                    
-                    // Remove previous styles
-                    pdfElement.removeAttribute('style');
-                    
-                    // Add additional styles if needed
-                    
-                    // Save the modified PDF
-                    pdf.save(name);
-                });
-            },
-        });
-    });
-</script>
 
+
+<br><br><br>
+</fieldset>
+    
 </body>
-
 </html>
