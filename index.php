@@ -31,11 +31,11 @@
             border-top: 1px solid #d2d6de;
             padding: 12px;
             text-align: center;
-            margin-top:110px;
+            margin-top:120px;
         }
 
         .accueil-component {
-            max-width: 500px;
+            max-width: 400px;
             margin: 0 auto;
             display: block;
             margin-bottom: 20px;
@@ -55,7 +55,7 @@
         .accueil-component-icon {
             margin: 0 auto;
             border: 0px solid;
-            width: 150px;
+            width: 140px;
             border-radius: 50%;
         }
 
