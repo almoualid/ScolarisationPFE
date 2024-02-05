@@ -157,37 +157,38 @@ $all_commune_result = $conn->query($all_commune_query);
   <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0M9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1M3 9h10v1h-3v2h3v1h-3v2H9v-2H6v2H5v-2H3v-1h2v-2H3z"/>
 </svg></button>
 </div>
-    <script>
-        // JavaScript to dynamically update the institute dropdown and table based on the selected commune
+<script>
+        var selectedCommune; // Déclarer la variable au niveau global
+
         document.getElementById('allCommuneDropdown').addEventListener('change', function () {
-            var selectedCommune = this.value;
+            selectedCommune = this.value; // Affecter la valeur à la variable globale
             var instituteDropdown = document.getElementById('instituteDropdown');
- 
+
             // Clear existing options
             instituteDropdown.innerHTML = '';
- 
+
             // Fetch and populate the institute dropdown based on the selected commune (adjust the query accordingly)
             var instituteOptions = {
                 <?php
                 $institute_query = "SELECT CodeGresa, NomArabeInst FROM Institution WHERE id_commune = :selected_commune_id";
                 $institute_stmt = $conn->prepare($institute_query);
- 
+
                 $all_commune_result->execute();
                 while ($row = $all_commune_result->fetch(PDO::FETCH_ASSOC)) {
                     $selected_commune_id = $row['CodeCommune'];
                     $institute_stmt->bindParam(':selected_commune_id', $selected_commune_id);
                     $institute_stmt->execute();
                     $institute_result = $institute_stmt->fetchAll(PDO::FETCH_ASSOC);
- 
+
                     echo "'{$selected_commune_id}': " . json_encode($institute_result) . ",";
                 }
- 
+
                 $institute_stmt->closeCursor();
                 ?>
             };
- 
+
             var selectedInstitute = instituteOptions[selectedCommune];
- 
+
             // Populate the institute dropdown
             for (var i = 0; i < selectedInstitute.length; i++) {
                 var option = document.createElement('option');
@@ -195,68 +196,68 @@ $all_commune_result = $conn->query($all_commune_query);
                 option.text = selectedInstitute[i].NomArabeInst;
                 instituteDropdown.add(option);
             }
- 
+
             // Trigger the change event for the institute dropdown
             var event = new Event('change');
             instituteDropdown.dispatchEvent(event);
         });
- 
+
         document.getElementById('instituteDropdown').addEventListener('change', function () {
             var selectedInstitute = this.value;
             updateStudentsTable(selectedInstitute);
         });
- 
+
         function updateStudentsTable(selectedInstitute) {
-               var xhttp = new XMLHttpRequest();
-               xhttp.onreadystatechange = function () {
-        if (this.readyState == 4) {
-            console.log('Response:', this.responseText); // Log the response
-            console.log('Status:', this.status); // Log the status
- 
-            if (this.status == 200) {
-                try {
-                    var studentsData = JSON.parse(this.responseText);
-                    displayStudentsTable(studentsData);
-                } catch (error) {
-                    console.error('JSON parsing error:', error);
+            sessionStorage.setItem('selectedInstitute', selectedInstitute);
+            var xhttp = new XMLHttpRequest();
+
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4) {
+                    console.log('Response:', this.responseText);
+                    console.log('Status:', this.status);
+
+                    if (this.status == 200) {
+                        try {
+                            var studentsData = JSON.parse(this.responseText);
+                            displayStudentsTable(studentsData, selectedInstitute); // Pass selectedInstitute as a parameter
+                        } catch (error) {
+                            console.error('JSON parsing error:', error);
+                        }
+                    } else {
+                        console.error('Error:', this.status);
+                    }
                 }
-            } else {
-                console.error('Error:', this.status);
-            }
+            };
+
+            xhttp.open("GET", "fetch_students.php?institute=" + selectedInstitute, true);
+            xhttp.send();
         }
-    };
- 
-    xhttp.open("GET", "fetch_students.php?institute=" + selectedInstitute, true);
-    xhttp.send();
-}
- 
- 
-        function displayStudentsTable(studentsData) {
+
+        function displayStudentsTable(studentsData, selectedInstitute) {
             var studentsTableBody = document.getElementById('studentsTableBody');
             studentsTableBody.innerHTML = '';
-           
+
             for (var i = 0; i < studentsData.length; i++) {
                 var row = document.createElement('tr');
-                row.innerHTML = '<td>' + studentsData[i].NumInscription+ '</td>' +
-                                 '<td>' + studentsData[i].NomArabeEleve+ '</td>' +
-                                 '<td>' + studentsData[i].PrenomFrancaisEleve+ '</td>' +
-                                 '<td>' + studentsData[i].PrenomArabeEleve+ '</td>' +
-                                 '<td>' + studentsData[i].NomFrancaisEleve+ '</td>' +
-                                 '<td>' + studentsData[i].NiveauScolaire+ '</td>' +
-                                 '<td>' + studentsData[i].DateNaissance + '</td>' +
-                                 '<td>' + studentsData[i].LieuNaissance+ '</td>' +
-                                 '<td>' + studentsData[i].AnneeScolaire+ '</td>' +
-                                 '<td>' + studentsData[i].DateAbandonnement+ '</td>' +
-                                 '<td>' + studentsData[i].Remarque+ '</td>' +
-                                 '<td class="action-icons">' +
-                                  '<a href="EditDataAdmin.php?NumInscription=' + studentsData[i].NumInscription + '" title="تعديل"><i class="fas fa-edit"></i></a>' +
- 
-                                   '<a href="viewCertificatAdmin.php?NumInscription=' + studentsData[i].NumInscription + '" title="عرض"><i class="fas fa-eye"></i></a>' +
-                                   '</td>';  
+                row.innerHTML = '<td>' + studentsData[i].NumInscription + '</td>' +
+                    '<td>' + studentsData[i].NomArabeEleve + '</td>' +
+                    '<td>' + studentsData[i].PrenomFrancaisEleve + '</td>' +
+                    '<td>' + studentsData[i].PrenomArabeEleve + '</td>' +
+                    '<td>' + studentsData[i].NomFrancaisEleve + '</td>' +
+                    '<td>' + studentsData[i].NiveauScolaire + '</td>' +
+                    '<td>' + studentsData[i].DateNaissance + '</td>' +
+                    '<td>' + studentsData[i].LieuNaissance + '</td>' +
+                    '<td>' + studentsData[i].AnneeScolaire + '</td>' +
+                    '<td>' + studentsData[i].DateAbandonnement + '</td>' +
+                    '<td>' + studentsData[i].Remarque + '</td>' +
+                    '<td class="action-icons">' +
+                    '<a href="EditDataAdmin.php?NumInscription=' + studentsData[i].NumInscription + '" title="تعديل"><i class="fas fa-edit"></i></a>' +
+                    '<a href="viewCertificatAdmin.php?NumInscription=' + studentsData[i].NumInscription + '&commune=' + selectedCommune + '&institute=' + selectedInstitute + '" title="عرض"><i class="fas fa-eye"></i></a>' +
+                    '</td>';
                 studentsTableBody.appendChild(row);
             }
         }
-    </script>
+        </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.3/xlsx.full.min.js"></script>
     <script>
 
