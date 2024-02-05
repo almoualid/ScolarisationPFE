@@ -185,15 +185,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <select class="form-select" id="instituteDropdown" name="selectedInstitute"></select>
             </div>
         </div>
-            <div class="mb-3 row">
-                <div class="col-md-6">
-                <label for="NumInscription" class="form-label">رقم التسجيل </label>
+        <div class="">
+                <div class="mb-3">
+                 <label for="NumInscription" class="form-label">رقم التسجيل </label>
                     <input type="text" class="form-control" id="NumInscription" name="NumInscription" required>
                 </div>
-                <div class="col-md-6">
-                    <label for=" NiveauScolaire" class="form-label">المستوى الدراسي</label>
-                    <input type="text" class="form-control" id=" NiveauScolaire" name=" NiveauScolaire" required>
-                </div>
+                
             <div class="mb-3 row">
                 <div class="col-md-6">
                     <label for="NomArabeEleve" class="form-label">الاسم العائلي باللغة العربية</label>
@@ -244,9 +241,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
             </div>
 
-            <div class="mb-3">
-                <label for="Remarque" class="form-label">ملاحظة</label>
-                <textarea class="form-control" id="Remarque" name="Remarque" rows="3"></textarea>
+            <div class="mb-3 row">
+                <div class="col-md-6">
+                    <label for=" NiveauScolaire" class="form-label">المستوى الدراسي</label>
+                    <input type="text" class="form-control" id=" NiveauScolaire" name=" NiveauScolaire" required>
+                </div>
+                <div  class="col-md-6">
+                    <label for="Remarque" class="form-label">ملاحظة</label>
+                    <input class="form-control" id="Remarque" name="Remarque" rows="3"></input>
+                </div>
             </div>
 
             
