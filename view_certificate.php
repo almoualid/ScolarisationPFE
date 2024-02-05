@@ -170,7 +170,7 @@ if (isset($_GET['NumInscription'])) {
                     <h3 style="font-size: 16px;"> حرر ب <strong id="point">:</strong> <?php echo $_SESSION["commune"]; ?>  </h3>
                     <h3 style="font-size: 16px;"> في <strong id="point">:</strong> <?php echo date('d/m/Y'); ?> </h3>
                     <br>
-                    <h3 style="font-size: 16px; "> :خاتم و توقيع رئيس المؤسسة </h3>
+                    <h3 style="font-size: 16px; "> خاتم و توقيع رئيس المؤسسة: </h3>
                 </div>
             </div>
         </div>
