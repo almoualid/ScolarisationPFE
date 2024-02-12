@@ -3,6 +3,7 @@ include_once('conn.php');
 
 session_start();
 
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $codeGresa = $_POST["CodeGresa"];
     $password = $_POST["mdp"];
@@ -120,16 +121,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div class="form-group">
                   <input type="password" name="mdp" class="form-control _ge_de_ol" type="text" placeholder="كلمة المرور:" required="" oninvalid="this.setCustomValidity('المرجو ملء هذه الخانة')" oninput="this.setCustomValidity('')" aria-required="true">
                 </div>
-
-
-
-                <div class="form-group">
-                  <button type="submit" class="_btn_04">تسجيل الدخول</button>
-                  <?php if (!empty($error_message)) : ?>
+                <?php if (!empty($error_message)) : ?>
                       <div class="alert ">
                        <?php echo $error_message; ?>
                      </div>
                   <?php endif; ?>
+                <div class="form-group">
+                  <button type="submit" class="_btn_04">تسجيل الدخول</button>
                         <a href="index.php" class="_btn_retour">رجوع <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-bar-left" viewBox="0 0 16 16">
                         <path fill-rule="evenodd" d="M12.5 15a.5.5 0 0 1-.5-.5v-13a.5.5 0 0 1 1 0v13a.5.5 0 0 1-.5.5M10 8a.5.5 0 0 1-.5.5H3.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L3.707 7.5H9.5a.5.5 0 0 1 .5.5"/>
                    </svg></a>

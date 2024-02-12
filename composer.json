@@ -5,7 +5,8 @@
     "license": "MIT",
     "require": {
         "phpoffice/phpspreadsheet": "^1.29",
-        "mpdf/mpdf": "*"
+        "mpdf/mpdf": "*",
+        "dompdf/dompdf": "*"
     },
     "autoload": {
         "psr-4": {
