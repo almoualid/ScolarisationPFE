@@ -22,6 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($user_info) {
             $_SESSION["user_id"] = $user_info["CodeGresa"];
             $_SESSION["user_name"] = $user_info["NomArabeInst"];
+            $_SESSION["user_phone"] = $user_info["Telephone"];
 
             // Fetch commune information based on the retrieved user's institution ID
             $queryCommune = "SELECT * FROM Commune WHERE CodeCommune = :id_commune";

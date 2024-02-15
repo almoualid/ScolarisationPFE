@@ -29,6 +29,43 @@ if (isset($_GET['NumInscription'])) {
     echo "NumInscription parameter is missing.";
     exit;
 }
+
+if (isset($_GET['institute'])) {
+    $institute = $_GET['institute'];
+    try {
+        $ins = "SELECT * FROM institution WHERE CodeGresa = ?";
+        $stmt = $conn->prepare($ins);
+        $stmt->bindParam(1, $institute);
+        $stmt->execute();
+        $inst = $stmt->fetch(PDO::FETCH_ASSOC);
+        if (!$inst) {
+            echo "inst not found.";
+            exit;
+        }
+    } catch (PDOException $e) {
+        echo "Error: " . $e->getMessage();
+    }
+} else {
+    echo "CodeGresa parameter is missing.";
+    exit;
+}
+
+
+$commune =  $inst['id_commune'];
+try {
+    $comm = "SELECT * FROM commune WHERE CodeCommune = ?";
+    $stmt = $conn->prepare($comm);
+    $stmt->bindParam(1, $commune);
+    $stmt->execute();
+    $comm = $stmt->fetch(PDO::FETCH_ASSOC);
+    if (!$comm) {
+        echo "commune not found.";
+        exit;
+    }
+} catch (PDOException $e) {
+    echo "Error: " . $e->getMessage();
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -66,10 +103,11 @@ if (isset($_GET['NumInscription'])) {
             <div class="row">
                 <div class="col-6 col-md-4">
                     <div class="trois" style="text-align: right; margin-top: 20px; ">
-                        <h6> الجماعة<strong id="point">:</strong> <?php echo $_SESSION["commune"]; ?>             
-                        <br>المؤسسة<strong id="point">:</strong> <?php echo $_SESSION["user_name"]; ?>
+                        <h6> الجماعة<strong id="point">:</strong> <?php echo $comm['NomArabeCommune']; ?>             
+                        <br>المؤسسة<strong id="point">:</strong> <?php echo $inst['NomArabeInst']; ?>
                         <br>
-                             الهاتف<strong id="point">:</strong> <?php echo $_SESSION['user_phone']; ?>
+                            
+                        الهاتف<strong id="point">:</strong> <?php echo $inst['Telephone']; ?>
                             </h6>
 
                     </div>
@@ -167,7 +205,7 @@ if (isset($_GET['NumInscription'])) {
                 <div class="col-6"></div>
 
                 <div class="col-6 " style="text-align: justify;">
-                    <h3 style="font-size: 16px;"> حرر ب <strong id="point">:</strong> <?php echo $_SESSION["commune"]; ?>  </h3>
+                    <h3 style="font-size: 16px;"> حرر ب <strong id="point">:</strong> <?php echo $comm['NomArabeCommune']; ?>  </h3>
                     <h3 style="font-size: 16px;"> في <strong id="point">:</strong> <?php echo date('d/m/Y'); ?> </h3>
                     <br>
                     <h3 style="font-size: 16px; "> خاتم و توقيع رئيس المؤسسة: </h3>
@@ -188,10 +226,10 @@ if (isset($_GET['NumInscription'])) {
     <div class="row">
         <div class="col-6 col-md-4">
             <div class="trois" style="text-align: right; margin-top: 20px; ">
-                <h6> الجماعة<strong id="point">:</strong> <?php echo $_SESSION["commune"]; ?>             
-                <br>المؤسسة<strong id="point">:</strong> <?php echo $_SESSION["user_name"]; ?>
+                <h6> الجماعة<strong id="point">:</strong> <?php echo $comm['NomArabeCommune']; ?>            
+                <br>المؤسسة<strong id="point">:</strong> <?php echo $inst['NomArabeInst']; ?>
                 <br>
-                     الهاتف<strong id="point">:</strong> <?php echo $_SESSION['user_phone']; ?>
+                     الهاتف<strong id="point">:</strong>  <?php echo $inst['Telephone']; ?>
                     </h6>
 
             </div>
@@ -289,7 +327,7 @@ if (isset($_GET['NumInscription'])) {
         <div class="col-6"></div>
 
         <div class="col-6 " style="text-align: justify;">
-            <h3 style="font-size: 16px;"> حرر ب <strong id="point">:</strong> <?php echo $_SESSION["commune"]; ?>  </h3>
+            <h3 style="font-size: 16px;"> حرر ب <strong id="point">:</strong> <?php echo $comm['NomArabeCommune']; ?>  </h3>
             <h3 style="font-size: 16px;"> في <strong id="point">:</strong> <?php echo date('d/m/Y'); ?> </h3>
             <br>
             <h3 style="font-size: 16px; "> خاتم و توقيع رئيس المؤسسة: </h3>

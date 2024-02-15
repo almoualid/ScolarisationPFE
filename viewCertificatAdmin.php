@@ -108,7 +108,7 @@ if (isset($_GET['institute'])) {
                         <h6> الجماعة<strong id="point">:</strong> <?php echo $comm['NomArabeCommune']; ?>             
                         <br>المؤسسة<strong id="point">:</strong> <?php echo $inst['NomArabeInst']; ?>
                         <br>
-                             الهاتف<strong id="point">:</strong> 
+                             الهاتف<strong id="point">:</strong> <?php echo $inst['Telephone']; ?>
                             </h6>
 
                     </div>
@@ -229,7 +229,7 @@ if (isset($_GET['institute'])) {
                 <h6> الجماعة<strong id="point">:</strong> <?php echo $comm['NomArabeCommune']; ?>             
                 <br>المؤسسة<strong id="point">:</strong> <?php echo $inst['NomArabeInst']; ?>
                 <br>
-                     الهاتف<strong id="point">:</strong> 
+                     الهاتف<strong id="point">:</strong> <?php echo $inst['Telephone']; ?>
                     </h6>
 
             </div>

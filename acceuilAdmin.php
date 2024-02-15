@@ -109,7 +109,7 @@ $all_commune_result = $conn->query($all_commune_query);
     <br>
  
     <div class="float-start mt-3">
-            <button class="btn btn-warning" id="resetAllPasswordsButton" style="margin-top: -75px; " >إعادة ضبط الجميع كلمة المرور<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+            <button class="btn btn-warning" id="resetAllPasswordsButton" style="margin-top: -75px; " >إعادة ضبط جميع كلمات المرور<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
   <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2z"/>
   <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466"/>
 </svg></button>
@@ -200,7 +200,7 @@ $all_commune_result = $conn->query($all_commune_query);
                 <th scope="col">تاريخ الانقطاع عن الدراسة</th>
                 
                 <th scope="col">ملاحظة</th>
-                <th scope="col">رقم التسجيل</th>
+                <th scope="col"> رقم المؤسسة</th>
                 <th scope="col">إجراءات </th>
             </tr>
         </thead>
@@ -222,7 +222,7 @@ $all_commune_result = $conn->query($all_commune_query);
 
                     <td class="action-icons">
                         <a href="EditDataAdmin.php?NumInscription=<?php echo $student['NumInscription']; ?>" title="تعديل"><i class="fas fa-edit"></i></a>
-                        <a href="viewCertificatAdmin.php?NumInscription=<?php echo $student['NumInscription']; ?>" title="عرض"><i class="fas fa-eye"></i></a>
+                        <a href="CertificatAllAdmin.php?NumInscription=<?php echo $student['NumInscription']; ?>&institute=<?php echo $student['id_Inst']; ?> " title="عرض"><i class="fas fa-eye"></i></a>
                     </td>
                 </tr>
             <?php endforeach; ?>
@@ -384,9 +384,9 @@ function displayStudentsTable(studentsData, selectedInstitute) {
         xhttp.onreadystatechange = function () {
             if (this.readyState == 4) {
                 if (this.status == 200) {
-                    alert("تمت إعادة تعيين كلمات المرور للمؤسسة المحددة بنجاح.");
+                    alert("تمت إعادة تعيين كلمة المرور للمؤسسة المحددة بنجاح.");
                 } else {
-                    alert("خطأ في إعادة تعيين كلمات المرور.");
+                    alert("خطأ في إعادة تعيين كلمة المرور.");
                 }
             }
         };

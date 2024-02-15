@@ -91,11 +91,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             text-decoration: none; 
             color: white; 
         }
-        img{
-            width: 300px;
-            height: auto;
-            margin-bottom: 20px;
-        }
         #view-data{
             text-decoration: none; 
             color: white; 
@@ -134,7 +129,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <body>
     <div class="container">
+        <div class="position-absolute top-0 start-50 translate-middle-x">
         <img src="./images/LogoMenAr.png" alt="">
+    </div><br><br> <br>
         <h3>مرحبا بكم , <?php echo $_SESSION["user_name"]; ?> <br> جماعة <?php echo $_SESSION["commune"]; ?></h3>
 
         <div style="display: flex;">
